@@ -502,7 +502,7 @@
     const SUPABASE_URL = "https://jrrmwlfshmroakaeocrf.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impycm13bGZzaG1yb2FrYWVvY3JmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTU2MDg4NjksImV4cCI6MjExMTE4NDg2OX0.H1a8rH6J1rYo2AgSxXkCcU6RwQ-OMJUcddigBvYH86w";
 
-    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // سيتم إنشاء عميل Supabase بعد التأكد من تحميل المكتبة.
 
     // تعريف الجداول الاثني عشر وحقولها
     const MODULES = {
@@ -588,5 +588,169 @@
           { name: "notes", label: "ملاحظات", type: "textarea", full: true }
         ]
       },
+      // تعريف قسم الجوازات غير مكتمل في الملف الأصلي؛ نغلق التعريف
+      // دون افتراض أسماء جداول أو حقول غير موجودة في المصدر.
       passports: {
-        label: "الجوازا
+        label: "الجوازات",
+        fields: []
+      }
+    };
+
+    // تهيئة Supabase Auth مع حفظ الجلسة وتجديدها تلقائياً.
+    const loginView = document.getElementById("loginView");
+    const appView = document.getElementById("appView");
+    const loginForm = document.getElementById("loginForm");
+    const loginEmail = document.getElementById("loginEmail");
+    const loginPassword = document.getElementById("loginPassword");
+    const loginBtn = document.getElementById("loginBtn");
+    const loginError = document.getElementById("loginError");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const currentUserEmail = document.getElementById("currentUserEmail");
+
+    let sb = null;
+    let authReady = false;
+
+    function showLoginError(message) {
+      if (!loginError) return;
+      loginError.textContent = message;
+      loginError.classList.remove("hidden");
+    }
+
+    function clearLoginError() {
+      if (!loginError) return;
+      loginError.textContent = "";
+      loginError.classList.add("hidden");
+    }
+
+    function setLoginBusy(busy) {
+      if (!loginBtn) return;
+      loginBtn.disabled = busy;
+      loginBtn.textContent = busy ? "جارٍ التحقق..." : "دخول إلى النظام";
+      loginBtn.setAttribute("aria-busy", busy ? "true" : "false");
+    }
+
+    function showAuthenticatedView(session) {
+      if (loginView) loginView.classList.add("hidden");
+      if (appView) appView.classList.remove("hidden");
+      if (currentUserEmail) {
+        currentUserEmail.textContent = session?.user?.email || "مستخدم النظام";
+      }
+    }
+
+    function showUnauthenticatedView() {
+      if (appView) appView.classList.add("hidden");
+      if (loginView) loginView.classList.remove("hidden");
+      if (currentUserEmail) currentUserEmail.textContent = "";
+      if (loginPassword) loginPassword.value = "";
+    }
+
+    function friendlyAuthError(error) {
+      const message = String(error?.message || "").toLowerCase();
+      if (message.includes("invalid login credentials") || message.includes("invalid_credentials")) {
+        return "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
+      }
+      if (message.includes("email not confirmed")) {
+        return "لم يتم تأكيد البريد الإلكتروني لهذا الحساب. يرجى مراجعة مسؤول النظام.";
+      }
+      if (message.includes("too many requests") || message.includes("rate limit")) {
+        return "تمت محاولات كثيرة. انتظر قليلاً ثم حاول مجدداً.";
+      }
+      if (message.includes("failed to fetch") || message.includes("network") || message.includes("fetch")) {
+        return "تعذر الاتصال بخدمة تسجيل الدخول. تحقق من الإنترنت ثم أعد المحاولة.";
+      }
+      return error?.message || "تعذر تسجيل الدخول. يرجى المحاولة مرة أخرى.";
+    }
+
+    async function initializeAuth() {
+      if (!window.supabase || typeof window.supabase.createClient !== "function") {
+        showLoginError("تعذر تحميل مكتبة تسجيل الدخول. تحقق من اتصال الإنترنت أو حجب شبكة CDN ثم أعد تحميل الصفحة.");
+        return;
+      }
+
+      try {
+        sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+          auth: {
+            persistSession: true,
+            autoRefreshToken: true,
+            detectSessionInUrl: true,
+            storage: window.localStorage
+          }
+        });
+
+        // تسجيل مستمع تغيّر الجلسة قبل قراءة الجلسة الحالية لتفادي فقدان حدث الدخول.
+        sb.auth.onAuthStateChange((_event, session) => {
+          if (session) {
+            showAuthenticatedView(session);
+          } else {
+            showUnauthenticatedView();
+          }
+        });
+
+        const { data, error } = await sb.auth.getSession();
+        if (error) throw error;
+        if (data?.session) showAuthenticatedView(data.session);
+        else showUnauthenticatedView();
+        authReady = true;
+      } catch (error) {
+        console.error("Supabase initialization error:", error);
+        showUnauthenticatedView();
+        showLoginError("تعذر تهيئة الاتصال الآمن: " + friendlyAuthError(error));
+      }
+    }
+
+    if (loginForm) {
+      loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        clearLoginError();
+
+        if (!authReady || !sb) {
+          showLoginError("خدمة تسجيل الدخول لم تجهز بعد. تحقق من الاتصال وأعد تحميل الصفحة.");
+          return;
+        }
+
+        const email = loginEmail.value.trim();
+        const password = loginPassword.value;
+        if (!email || !password) {
+          showLoginError("يرجى إدخال البريد الإلكتروني وكلمة المرور.");
+          return;
+        }
+
+        setLoginBusy(true);
+        try {
+          const { data, error } = await sb.auth.signInWithPassword({ email, password });
+          if (error) throw error;
+          if (!data?.session) throw new Error("لم يتم إنشاء جلسة دخول. حاول مرة أخرى.");
+          showAuthenticatedView(data.session);
+          loginPassword.value = "";
+        } catch (error) {
+          console.error("Login error:", error);
+          showLoginError(friendlyAuthError(error));
+        } finally {
+          setLoginBusy(false);
+        }
+      });
+    }
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", async () => {
+        if (!sb) return;
+        logoutBtn.disabled = true;
+        try {
+          const { error } = await sb.auth.signOut();
+          if (error) throw error;
+          showUnauthenticatedView();
+          clearLoginError();
+        } catch (error) {
+          console.error("Logout error:", error);
+          if (typeof showToast === "function") showToast("تعذر تسجيل الخروج: " + friendlyAuthError(error));
+          else showLoginError("تعذر تسجيل الخروج: " + friendlyAuthError(error));
+        } finally {
+          logoutBtn.disabled = false;
+        }
+      });
+    }
+
+    initializeAuth();
+  </script>
+</body>
+</html>

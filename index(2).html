@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>درب المشاعر — النظام الإداري والمحاسبي</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --bg: #f1f5f5;
+      --surface: #ffffff;
+      --surface-alt: #f7f8f7;
+      --primary: #102747;
+      --primary-hover: #0a1c34;
+      --primary-soft: #e8edf4;
+      --accent: #c5a45b;
+      --text: #1c2b3d;
+      --muted: #77818d;
+      --border: #e5e6e2;
+      --danger: #b42318;
+      --danger-soft: #fef3f2;
+      --success: #067647;
+      --success-soft: #ecfdf3;
+      --radius: 12px;
+      --shadow: 0 6px 24px rgba(15, 81, 50, 0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .hidden { display: none !important; }
+
+    /* شاشة تسجيل الدخول */
+    .login-wrap {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: radial-gradient(circle at top right, #d9ede2, var(--bg) 55%);
+    }
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 28px;
+      box-shadow: var(--shadow);
+    }
+    .brand-badge {
+      display: inline-block;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 13px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+    .login-card h1 { font-size: 22px; color: var(--primary); margin-bottom: 6px; }
+    .login-card p { color: var(--muted); font-size: 14px; margin-bottom: 22px; }
+
+    /* هيكل النظام الرئيسي */
+    .app-shell {
+      display: flex;
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: 265px;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 30;
+      transition: transform 0.25s ease;
+    }
+    .sidebar-head {
+      padding: 20px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-head h2 { font-size: 18px; color: var(--primary); }
+    .sidebar-head span { font-size: 12px; color: var(--muted); }
+
+    .nav-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .nav-btn {
+      width: 100%;
+      text-align: right;
+      background: transparent;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-btn:hover { background: var(--surface-alt); }
+    .nav-btn.active {
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+    .nav-count {
+      font-size: 11px;
+      background: var(--bg);
+      color: var(--muted);
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    .sidebar-foot {
+      padding: 14px;
+      border-top: 1px solid var(--border);
+      background: var(--surface-alt);
+    }
+    .user-email {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 10px;
+      word-break: break-all;
+    }
+
+    .main-area {
+      flex: 1;
+      margin-right: 265px;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 12px; }
+    .mobile-menu-btn {
+      display: none;
+      background: var(--primary-soft);
+      color: var(--primary);
+      border: none;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .page-title { font-size: 19px; font-weight: 700; }
+
+    .content { padding: 24px; max-width: 1400px; width: 100%; margin: 0 auto; }
+
+    /* البطاقات والإحصائيات */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+    .kpi-label { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+    .kpi-value { font-size: 22px; font-weight: 800; color: var(--primary); }
+    .kpi-value.danger { color: var(--danger); }
+    .kpi-value.success { color: var(--success); }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .card-title { font-size: 16px; font-weight: 700; }
+
+    /* النماذج والأزرار */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+    }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label { font-size: 13px; font-weight: 600; color: var(--text); }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      font-size: 14px;
+      font-family: inherit;
+      background: #fff;
+      color: var(--text);
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    .field.full { grid-column: 1 / -1; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 9px;
+      border: 1px solid transparent;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-outline { background: #fff; border-color: var(--border); color: var(--text); }
+    .btn-outline:hover { background: var(--surface-alt); }
+    .btn-danger { background: var(--danger-soft); color: var(--danger); border-color: #fecdca; }
+    .btn-sm { padding: 6px 11px; font-size: 12px; border-radius: 7px; }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .search-input {
+      flex: 1;
+      min-width: 220px;
+      padding: 9px 13px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      font-size: 14px;
+    }
+
+    /* الجداول */
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      background: #fff;
+    }
+    th, td {
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: right;
+      white-space: nowrap;
+    }
+    th {
+      background: var(--surface-alt);
+      font-weight: 700;
+      color: var(--muted);
+    }
+    tr:last-child td { border-bottom: none; }
+    .actions-cell { display: flex; gap: 6px; }
+
+    .alert {
+      padding: 11px 14px;
+      border-radius: 9px;
+      font-size: 13.5px;
+      margin-top: 12px;
+    }
+    .alert-error { background: var(--danger-soft); color: var(--danger); border: 1px solid #fecdca; }
+    .alert-success { background: var(--success-soft); color: var(--success); border: 1px solid #abefc6; }
+
+    .toast {
+      position: fixed;
+      bottom: 22px;
+      left: 22px;
+      background: var(--text);
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      box-shadow: var(--shadow);
+      z-index: 100;
+    }
+
+    /* نافذة التعديل */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 19, 0.45);
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      z-index: 60;
+    }
+    .modal-box {
+      width: 100%;
+      max-width: 680px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: var(--surface);
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    /* الهوية البصرية الجديدة المطابقة للواجهة المرجعية */
+    .app-shell { display:block; min-height:100vh; background:var(--bg); }
+    .brand-banner {
+      height:94px; position:relative; overflow:hidden; display:flex; flex-direction:column;
+      align-items:center; justify-content:center; color:#e8cb82;
+      background:linear-gradient(110deg,#0b1d35,#142d50 52%,#0b1d35);
+      border-bottom:3px solid var(--accent); text-align:center;
+    }
+    .brand-banner:before,.brand-banner:after {
+      content:"◇"; position:absolute; top:-48px; color:rgba(214,190,130,.16);
+      font-size:150px; font-weight:200; transform:scaleX(1.7);
+    }
+    .brand-banner:before { left:8%; } .brand-banner:after { right:8%; }
+    .brand-mark { display:none; }
+    .brand-name { font-size:27px; line-height:1.15; font-weight:800; letter-spacing:.2px; }
+    .brand-subtitle { color:#f0e5c9; font-size:11px; margin-top:3px; }
+    .brand-caption { color:#c9cdd4; font-size:10px; margin-top:1px; }
+    .primary-nav {
+      min-height:47px; display:flex; justify-content:center; align-items:center; gap:7px;
+      padding:7px 14px; background:#fff; border-bottom:1px solid #e8e9e7;
+    }
+    .primary-nav button {
+      border:0; border-radius:8px; padding:8px 18px; color:#fff; background:#142b4b;
+      font:600 12px inherit; cursor:pointer; box-shadow:0 2px 5px rgba(10,25,45,.10);
+    }
+    .primary-nav button:hover,.primary-nav button.active { background:#c2a15a; color:#102747; }
+    .sidebar {
+      top:141px; bottom:0; width:200px; background:transparent; border:0;
+      padding:12px 10px; overflow-y:auto; box-shadow:none;
+    }
+    .sidebar-head { display:none; }
+    .nav-list { padding:0; gap:6px; overflow:visible; }
+    .nav-btn,.nav-item {
+      min-height:40px; width:100%; background:#fff; border:1px solid #e7e5dc;
+      border-radius:10px; padding:9px 12px; color:#253448; font-size:13px;
+      font-weight:700; box-shadow:0 2px 7px rgba(20,39,71,.045);
+    }
+    .nav-btn:hover,.nav-item:hover { background:#fbf8ed; }
+    .nav-btn.active,.nav-item.active {
+      background:#fbf8ed; color:#142b4b; border-color:#d6c28d;
+      box-shadow:inset 0 0 0 1px rgba(197,164,91,.18);
+    }
+    .sidebar-foot { margin-top:10px; background:#fff; border:1px solid var(--border); border-radius:10px; }
+    .main-area { margin-right:200px; min-height:calc(100vh - 141px); }
+    .topbar { min-height:48px; padding:10px 24px 2px; background:transparent; border:0; position:static; }
+    .page-title { font-size:20px; color:#1c2b3d; }
+    .content { max-width:1240px; padding:8px 20px 28px; }
+    .dashboard-meta { display:flex; align-items:center; justify-content:space-between; color:#89919b; font-size:11px; margin:0 0 12px; }
+    .dashboard-meta strong { color:#1b2d44; font-size:19px; }
+    .kpi-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-bottom:14px; }
+    .kpi-card,.kpi-grid > .card {
+      position:relative; min-height:112px; padding:17px 18px; border:1px solid #ecece7;
+      border-radius:13px; box-shadow:0 4px 15px rgba(20,39,71,.055);
+    }
+    .kpi-icon { position:absolute; top:13px; left:14px; width:30px; height:30px; border-radius:50%; display:grid; place-items:center; background:#142b4b; color:#e3c77d; font-size:14px; }
+    .kpi-note { color:#a0a5aa; font-size:10px; margin-top:2px; }
+    .kpi-grid > .card .card-title { font-size:12px; color:#7b838b; font-weight:500; }
+    .kpi-grid > .card div[style*="font-size:28px"] { font-size:24px !important; color:#142b4b !important; }
+    .welcome-banner {
+      background:#fff; border:1px solid #ecece7; border-radius:12px; padding:12px 18px;
+      text-align:center; font-size:14px; font-weight:700; color:#253448;
+      box-shadow:0 3px 12px rgba(20,39,71,.045); margin-bottom:14px;
+    }
+    .card { border-color:#ecece7; border-radius:13px; box-shadow:0 4px 15px rgba(20,39,71,.05); }
+    .card-title { color:#253448; }
+    th { background:#142b4b; color:#fff; }
+    .btn-primary { background:#142b4b; }
+    .btn-primary:hover { background:#0b1d35; }
+    .mobile-menu-btn { background:#142b4b; color:#fff; }
+    @media (max-width: 900px) {
+      .sidebar { top:141px; transform:translateX(100%); width:230px; background:#f5f6f5; }
+      .sidebar.open { transform:translateX(0); }
+      .main-area { margin-right:0; }
+      .kpi-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .topbar { padding:10px 14px 2px; }
+      .content { padding:8px 12px 24px; }
+    }
+    @media (max-width: 520px) {
+      .brand-banner { height:86px; }
+      .brand-name { font-size:23px; }
+      .primary-nav { gap:5px; flex-wrap:wrap; }
+      .primary-nav button { padding:7px 10px; font-size:11px; }
+      .sidebar { top:133px; }
+      .kpi-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+      .kpi-grid > .card { min-height:96px; padding:12px; }
+      .welcome-banner { font-size:12px; }
+    }
+
+    @media (max-width: 900px) {
+      .sidebar { transform: translateX(100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main-area { margin-right: 0; }
+      .mobile-menu-btn { display: inline-flex; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- شاشة تسجيل الدخول -->
+  <section id="loginView" class="login-wrap">
+    <div class="login-card">
+      <div class="brand-badge">درب المشاعر للسفريات والحج والعمرة</div>
+      <h1>تسجيل الدخول للنظام</h1>
+      <p>أدخل البريد الإلكتروني وكلمة المرور للوصول إلى قاعدة البيانات السحابية.</p>
+      <form id="loginForm">
+        <div class="field" style="margin-bottom:14px;">
+          <label for="loginEmail">البريد الإلكتروني</label>
+          <input id="loginEmail" type="email" required autocomplete="username" placeholder="darbalmashaer@gmail.com" />
+        </div>
+        <div class="field" style="margin-bottom:18px;">
+          <label for="loginPassword">كلمة المرور</label>
+          <input id="loginPassword" type="password" required autocomplete="current-password" placeholder="••••••••" />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;" id="loginBtn">دخول إلى النظام</button>
+        <div id="loginError" class="alert alert-error hidden"></div>
+      </form>
+      <button type="button" id="forgotPasswordBtn" class="btn btn-outline" style="width:100%;margin-top:12px;">نسيت كلمة المرور؟</button>
+      <form id="resetPasswordForm" class="hidden" style="margin-top:16px;">
+        <div class="field" style="margin-bottom:12px;">
+          <label for="resetEmail">البريد الإلكتروني لإرسال رابط الاستعادة</label>
+          <input id="resetEmail" type="email" required autocomplete="email" />
+        </div>
+        <button type="submit" id="resetPasswordSubmit" class="btn btn-primary" style="width:100%;">إرسال رابط الاستعادة</button>
+        <button type="button" id="resetCancelBtn" class="btn btn-outline" style="width:100%;margin-top:8px;">العودة لتسجيل الدخول</button>
+        <div id="resetMessage" class="alert hidden" style="margin-top:12px;"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- واجهة النظام الرئيسية -->
+  <div id="appView" class="app-shell hidden">
+    <div class="brand-banner">
+      <div class="brand-mark" aria-hidden="true">◇</div>
+      <div class="brand-name">درب المشاعر</div>
+      <div class="brand-subtitle">للسفريات وخدمات الحج والعمرة</div>
+      <div class="brand-caption">النظام الإداري والمحاسبي المتكامل</div>
+    </div>
+    <nav class="primary-nav" aria-label="التنقل الرئيسي">
+      <button type="button" data-module="dashboard">الرئيسية</button>
+      <button type="button" data-module="receipts">الإيرادات والقبض</button>
+      <button type="button" data-module="expenses">المصروفات</button>
+      <button type="button" data-module="cashboxes">التقارير</button>
+    </nav>
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-head">
+        <h2>درب المشاعر</h2>
+        <span>نظام الإدارة والمحاسبة السحابي</span>
+      </div>
+      <nav id="navList" class="nav-list"></nav>
+      <div class="sidebar-foot">
+        <div id="currentUserEmail" class="user-email"></div>
+        <button id="logoutBtn" class="btn btn-outline btn-sm" style="width:100%;">تسجيل الخروج</button>
+      </div>
+    </aside>
+
+    <div class="main-area">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="mobileMenuBtn" class="mobile-menu-btn">☰</button>
+          <h1 id="pageTitle" class="page-title">لوحة التحكم</h1>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button id="refreshBtn" class="btn btn-outline btn-sm">تحديث البيانات</button>
+        </div>
+      </header>
+
+      <main class="content">
+        <!-- قسم لوحة التحكم -->
+        <section id="dashboardSection">
+          <div class="dashboard-meta"><span id="dashboardDate"></span><strong>لوحة التحكم</strong></div>
+          <div class="kpi-grid" id="kpiGrid"></div>
+          <div class="welcome-banner">مرحباً بك في نظام درب المشاعر - إدارة الحركة المالية ومتابعة المقبوضات والمصروفات والتقارير</div>
+
+          <div class="card">
+            <div class="card-head">
+              <div class="card-title">ملخص الخدمات والرصيد المتبقي</div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>القسم</th>
+                    <th>عدد السجلات</th>
+                    <th>إجمالي العقود / التذاكر</th>
+                    <th>إجمالي المدفوع</th>
+                    <th>المتبقي المستحق</th>
+                  </tr>
+                </thead>
+                <tbody id="servicesSummaryBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div class="card-title">أحدث العمليات في النظام</div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>الوقت</th>
+                    <th>المستخدم</th>
+                    <th>النوع</th>
+                    <th>الجدول</th>
+                    <th>البيان</th>
+                  </tr>
+                </thead>
+                <tbody id="recentLogsBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- قسم إدارة الجداول -->
+        <section id="moduleSection" class="hidden">
+          <div class="card">
+            <div class="card-head">
+              <div class="card-title" id="formCardTitle">إضافة سجل جديد</div>
+            </div>
+            <form id="recordForm">
+              <div id="formFields" class="form-grid"></div>
+              <div style="margin-top:16px; display:flex; gap:10px;">
+                <button type="submit" class="btn btn-primary" id="submitRecordBtn">حفظ السجل</button>
+                <button type="button" class="btn btn-outline" id="clearFormBtn">تفريغ الحقول</button>
+              </div>
+              <div id="formMessage" class="alert hidden"></div>
+            </form>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div class="card-title" id="tableCardTitle">السجلات المحفوظة</div>
+            </div>
+            <div class="toolbar">
+              <input id="searchInput" type="text" class="search-input" placeholder="ابحث في السجلات..." />
+              <button id="exportCsvBtn" class="btn btn-outline btn-sm">تصدير CSV</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead id="tableHead"></thead>
+                <tbody id="tableBody"></tbody>
+              </table>
+            </div>
+          </div>
+          <div id="passportWorkspace" class="hidden"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- نافذة تعديل السجل -->
+  <div id="editModal" class="modal-backdrop hidden">
+    <div class="modal-box">
+      <div class="card-head">
+        <div class="card-title">تعديل السجل</div>
+        <button id="closeModalBtn" class="btn btn-outline btn-sm">✕</button>
+      </div>
+      <form id="editForm">
+        <div id="editFormFields" class="form-grid"></div>
+        <div style="margin-top:16px; display:flex; gap:10px;">
+          <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
+          <button type="button" class="btn btn-outline" id="cancelEditBtn">إلغاء</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script>
+    // إعدادات الاتصال بقاعدة بيانات درب المشاعر على Supabase
+    const SUPABASE_URL = "https://jrrmwlfshmroakaeocrf.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impycm13bGZzaG1yb2FrYWVvY3JmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTU2MDg4NjksImV4cCI6MjExMTE4NDg2OX0.H1a8rH6J1rYo2AgSxXkCcU6RwQ-OMJUcddigBvYH86w";
+
+    // سيتم إنشاء عميل Supabase بعد التأكد من تحميل المكتبة.
+
+    // تاريخ اليوم بصيغة محلية YYYY-MM-DD لتجنب خطأ todayISO وعدم انزياح التاريخ بسبب UTC.
+    function todayISO() {
+      const d = new Date();
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    // تعريف الجداول الاثني عشر وحقولها
+    const MODULES = {
+      customers: {
+        label: "العملاء",
+        fields: [
+          { name: "full_name", label: "الاسم الكامل", type: "text", required: true },
+          { name: "phone", label: "رقم الجوال", type: "text" },
+          { name: "id_number", label: "رقم الهوية", type: "text" },
+          { name: "passport_number", label: "رقم الجواز", type: "text" },
+          { name: "nationality", label: "الجنسية", type: "text" },
+          { name: "notes", label: "ملاحظات", type: "textarea", full: true }
+        ]
+      },
+      employees: {
+        label: "الموظفون",
+        fields: [
+          { name: "full_name", label: "اسم الموظف", type: "text", required: true },
+          { name: "email", label: "البريد الإلكتروني", type: "email" },
+          { name: "phone", label: "رقم الجوال", type: "text" },
+          { name: "role", label: "الدور الوظيفي", type: "select", options: ["مدير", "محاسب", "موظف"], default: "موظف" },
+          { name: "is_active", label: "الحالة", type: "select", options: ["true", "false"], labels: { "true": "نشط", "false": "متوقف" }, default: "true" }
+        ]
+      },
+      receipts: {
+        label: "المقبوضات",
+        amountField: "amount",
+        fields: [
+          { name: "voucher_number", label: "رقم السند", type: "text" },
+          { name: "customer_name", label: "اسم العميل / الدافع", type: "text", required: true },
+          { name: "amount", label: "المبلغ المقبوض", type: "number", step: "0.01", required: true },
+          { name: "payment_method", label: "طريقة الدفع", type: "select", options: ["نقد", "تحويل", "شبكة", "شيك"], default: "نقد" },
+          { name: "service_type", label: "نوع الخدمة", type: "text" },
+          { name: "receipt_date", label: "تاريخ السند", type: "date", default: todayISO() },
+          { name: "description", label: "البيان / الوصف", type: "textarea", full: true }
+        ]
+      },
+      expenses: {
+        label: "المصروفات",
+        expenseField: "amount",
+        fields: [
+          { name: "voucher_number", label: "رقم السند", type: "text" },
+          { name: "category", label: "البند / التصنيف", type: "text", required: true },
+          { name: "beneficiary_name", label: "المستفيد", type: "text" },
+          { name: "amount", label: "المبلغ المصروف", type: "number", step: "0.01", required: true },
+          { name: "payment_method", label: "طريقة الدفع", type: "select", options: ["نقد", "تحويل", "شبكة", "شيك"], default: "نقد" },
+          { name: "expense_date", label: "تاريخ الصرف", type: "date", default: todayISO() },
+          { name: "description", label: "البيان / الوصف", type: "textarea", full: true }
+        ]
+      },
+      collective_transport: {
+        label: "النقل الجماعي",
+        totalField: "ticket_price",
+        paidField: "paid_amount",
+        fields: [
+          { name: "passenger_name", label: "اسم المسافر", type: "text", required: true },
+          { name: "phone", label: "رقم الجوال", type: "text" },
+          { name: "route_from", label: "من", type: "text" },
+          { name: "route_to", label: "إلى", type: "text" },
+          { name: "trip_date", label: "تاريخ الرحلة", type: "date" },
+          { name: "bus_company", label: "شركة النقل", type: "text" },
+          { name: "ticket_price", label: "قيمة التذكرة", type: "number", step: "0.01", default: 0 },
+          { name: "paid_amount", label: "المدفوع", type: "number", step: "0.01", default: 0 },
+          { name: "status", label: "الحالة", type: "select", options: ["مؤكد", "مكتمل", "ملغي"], default: "مؤكد" },
+          { name: "notes", label: "ملاحظات", type: "textarea", full: true }
+        ]
+      },
+      private_cars: {
+        label: "السيارات الخاصة",
+        totalField: "total_price",
+        paidField: "paid_amount",
+        fields: [
+          { name: "passenger_name", label: "اسم العميل", type: "text", required: true },
+          { name: "phone", label: "رقم الجوال", type: "text" },
+          { name: "passengers_count", label: "عدد الركاب", type: "number", default: 1 },
+          { name: "car_type", label: "نوع السيارة", type: "text" },
+          { name: "route_from", label: "من", type: "text" },
+          { name: "route_to", label: "إلى", type: "text" },
+          { name: "pickup_datetime", label: "موعد الاستلام", type: "datetime-local" },
+          { name: "total_price", label: "الإجمالي", type: "number", step: "0.01", default: 0 },
+          { name: "paid_amount", label: "المدفوع", type: "number", step: "0.01", default: 0 },
+          { name: "status", label: "الحالة", type: "select", options: ["محجوز", "مكتمل", "ملغي"], default: "محجوز" },
+          { name: "notes", label: "ملاحظات", type: "textarea", full: true }
+        ]
+      },
+      // تعريف قسم الجوازات غير مكتمل في الملف الأصلي؛ نغلق التعريف
+      // دون افتراض أسماء جداول أو حقول غير موجودة في المصدر.
+      passports: {
+        label: "الجوازات",
+        fields: [
+          { name: "customer_name", label: "اسم صاحب الجواز", type: "text", required: true },
+          { name: "passport_number", label: "رقم الجواز", type: "text", required: true },
+          { name: "nationality", label: "الجنسية", type: "text" },
+          { name: "issue_date", label: "تاريخ الإصدار", type: "date" },
+          { name: "expiry_date", label: "تاريخ الانتهاء", type: "date" },
+          { name: "status", label: "الحالة", type: "text" },
+          { name: "notes", label: "ملاحظات", type: "textarea", full: true }
+        ]
+      },
+      branches: { label: "الفروع", fields: [
+        { name: "name", label: "اسم الفرع", type: "text", required: true },
+        { name: "address", label: "العنوان", type: "text" },
+        { name: "phone", label: "الهاتف", type: "text" },
+        { name: "is_active", label: "نشط؟", type: "select", options: ["true","false"], default: "true" }
+      ]},
+      cashboxes: { label: "الصناديق", fields: [
+        { name: "name", label: "اسم الصندوق", type: "text", required: true },
+        { name: "branch_name", label: "الفرع", type: "text" },
+        { name: "opening_balance", label: "الرصيد الافتتاحي", type: "number", default: 0 },
+        { name: "notes", label: "ملاحظات", type: "textarea", full: true }
+      ]},
+      bookings: { label: "حجوزات الحج والعمرة", totalField: "total_amount", paidField: "paid_amount", fields: [
+        { name: "customer_name", label: "اسم المعتمر / العميل", type: "text", required: true },
+        { name: "phone", label: "رقم الجوال", type: "text" },
+        { name: "package_name", label: "اسم البرنامج", type: "text" },
+        { name: "travel_date", label: "تاريخ السفر", type: "date" },
+        { name: "total_amount", label: "الإجمالي", type: "number", default: 0 },
+        { name: "paid_amount", label: "المدفوع", type: "number", default: 0 },
+        { name: "status", label: "الحالة", type: "text", default: "مسجل" },
+        { name: "notes", label: "ملاحظات", type: "textarea", full: true }
+      ]}
+    };
+
+    // تهيئة Supabase Auth مع حفظ الجلسة وتجديدها تلقائياً.
+    const loginView = document.getElementById("loginView");
+    const appView = document.getElementById("appView");
+    const loginForm = document.getElementById("loginForm");
+    const loginEmail = document.getElementById("loginEmail");
+    const loginPassword = document.getElementById("loginPassword");
+    const loginBtn = document.getElementById("loginBtn");
+    const loginError = document.getElementById("loginError");
+    const forgotPasswordBtn = document.getElementById("forgotPasswordBtn");
+    const resetPasswordForm = document.getElementById("resetPasswordForm");
+    const resetEmail = document.getElementById("resetEmail");
+    const resetMessage = document.getElementById("resetMessage");
+    const resetCancelBtn = document.getElementById("resetCancelBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const currentUserEmail = document.getElementById("currentUserEmail");
+
+    let sb = null;
+    let authReady = false;
+
+    function showLoginError(message) {
+      if (!loginError) return;
+      loginError.textContent = message;
+      loginError.classList.remove("hidden");
+    }
+
+    function clearLoginError() {
+      if (!loginError) return;
+      loginError.textContent = "";
+      loginError.classList.add("hidden");
+    }
+
+    function setLoginBusy(busy) {
+      if (!loginBtn) return;
+      loginBtn.disabled = busy;
+      loginBtn.textContent = busy ? "جارٍ التحقق..." : "دخول إلى النظام";
+      loginBtn.setAttribute("aria-busy", busy ? "true" : "false");
+    }
+
+    function showAuthenticatedView(session) {
+      if (loginView) loginView.classList.add("hidden");
+      if (appView) appView.classList.remove("hidden");
+      if (currentUserEmail) {
+        currentUserEmail.textContent = session?.user?.email || "مستخدم النظام";
+      }
+      initializeBusinessUI();
+    }
+
+    function showUnauthenticatedView() {
+      if (appView) appView.classList.add("hidden");
+      if (loginView) loginView.classList.remove("hidden");
+      if (currentUserEmail) currentUserEmail.textContent = "";
+      if (loginPassword) loginPassword.value = "";
+    }
+
+    function friendlyAuthError(error) {
+      const message = String(error?.message || "").toLowerCase();
+      if (message.includes("invalid login credentials") || message.includes("invalid_credentials")) {
+        return "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
+      }
+      if (message.includes("email not confirmed")) {
+        return "لم يتم تأكيد البريد الإلكتروني لهذا الحساب. يرجى مراجعة مسؤول النظام.";
+      }
+      if (message.includes("too many requests") || message.includes("rate limit")) {
+        return "تمت محاولات كثيرة. انتظر قليلاً ثم حاول مجدداً.";
+      }
+      if (message.includes("failed to fetch") || message.includes("network") || message.includes("fetch")) {
+        return "تعذر الاتصال بخدمة تسجيل الدخول. تحقق من الإنترنت ثم أعد المحاولة.";
+      }
+      return error?.message || "تعذر تسجيل الدخول. يرجى المحاولة مرة أخرى.";
+    }
+
+    function showAppIncompleteNotice() {
+      const content = document.querySelector(".content");
+      if (!content || document.getElementById("repairNotice")) return;
+      const notice = document.createElement("div");
+      notice.id = "repairNotice";
+      notice.className = "alert alert-error";
+      notice.style.marginBottom = "18px";
+      notice.textContent = "تنبيه: نسخة الواجهة المستلمة غير مكتملة؛ لا تزال وظائف الجداول ولوحة التحكم بحاجة إلى استكمال وربط بعد مراجعة مخطط قاعدة البيانات. لم يتم تنفيذ عمليات حفظ أو تعديل على بياناتك.";
+      content.prepend(notice);
+    }
+
+    async function initializeAuth() {
+      if (!window.supabase || typeof window.supabase.createClient !== "function") {
+        showLoginError("تعذر تحميل مكتبة تسجيل الدخول. تحقق من اتصال الإنترنت أو حجب شبكة CDN ثم أعد تحميل الصفحة.");
+        return;
+      }
+
+      try {
+        sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+          auth: {
+            persistSession: true,
+            autoRefreshToken: true,
+            detectSessionInUrl: true,
+            storage: window.localStorage
+          }
+        });
+
+        // تسجيل مستمع تغيّر الجلسة قبل قراءة الجلسة الحالية لتفادي فقدان حدث الدخول.
+        sb.auth.onAuthStateChange((_event, session) => {
+          if (session) {
+            showAuthenticatedView(session);
+          } else {
+            showUnauthenticatedView();
+          }
+        });
+
+        const { data, error } = await sb.auth.getSession();
+        if (error) throw error;
+        if (data?.session) showAuthenticatedView(data.session);
+        else showUnauthenticatedView();
+        authReady = true;
+      } catch (error) {
+        console.error("Supabase initialization error:", error);
+        showUnauthenticatedView();
+        showLoginError("تعذر تهيئة الاتصال الآمن: " + friendlyAuthError(error));
+      }
+    }
+
+    if (loginForm) {
+      loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        clearLoginError();
+
+        if (!authReady || !sb) {
+          showLoginError("خدمة تسجيل الدخول لم تجهز بعد. تحقق من الاتصال وأعد تحميل الصفحة.");
+          return;
+        }
+
+        const email = loginEmail.value.trim();
+        const password = loginPassword.value;
+        if (!email || !password) {
+          showLoginError("يرجى إدخال البريد الإلكتروني وكلمة المرور.");
+          return;
+        }
+
+        setLoginBusy(true);
+        try {
+          const { data, error } = await sb.auth.signInWithPassword({ email, password });
+          if (error) throw error;
+          if (!data?.session) throw new Error("لم يتم إنشاء جلسة دخول. حاول مرة أخرى.");
+          showAuthenticatedView(data.session);
+          loginPassword.value = "";
+        } catch (error) {
+          console.error("Login error:", error);
+          showLoginError(friendlyAuthError(error));
+        } finally {
+          setLoginBusy(false);
+        }
+      });
+    }
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", async () => {
+        if (!sb) return;
+        logoutBtn.disabled = true;
+        try {
+          const { error } = await sb.auth.signOut();
+          if (error) throw error;
+          showUnauthenticatedView();
+          clearLoginError();
+        } catch (error) {
+          console.error("Logout error:", error);
+          if (typeof showToast === "function") showToast("تعذر تسجيل الخروج: " + friendlyAuthError(error));
+          else showLoginError("تعذر تسجيل الخروج: " + friendlyAuthError(error));
+        } finally {
+          logoutBtn.disabled = false;
+        }
+      });
+    }
+
+    if (forgotPasswordBtn && resetPasswordForm) {
+      forgotPasswordBtn.addEventListener("click", () => {
+        resetPasswordForm.classList.remove("hidden");
+        forgotPasswordBtn.classList.add("hidden");
+        if (resetEmail && loginEmail) resetEmail.value = loginEmail.value.trim();
+        if (resetMessage) { resetMessage.textContent = ""; resetMessage.classList.add("hidden"); }
+      });
+    }
+    if (resetCancelBtn) resetCancelBtn.addEventListener("click", () => {
+      resetPasswordForm?.classList.add("hidden");
+      forgotPasswordBtn?.classList.remove("hidden");
+      if (resetMessage) resetMessage.classList.add("hidden");
+    });
+    if (resetPasswordForm) resetPasswordForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!sb || !authReady) {
+        resetMessage.textContent = "خدمة Supabase لم تجهز بعد. أعد تحميل الصفحة وحاول مرة أخرى.";
+        resetMessage.classList.remove("hidden");
+        return;
+      }
+      const email = resetEmail.value.trim();
+      const submit = document.getElementById("resetPasswordSubmit");
+      submit.disabled = true;
+      submit.textContent = "جارٍ إرسال الرابط...";
+      try {
+        const redirectTo = window.location.origin + window.location.pathname;
+        const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo });
+        if (error) throw error;
+        resetMessage.className = "alert alert-success";
+        resetMessage.textContent = "إذا كان البريد مسجلاً، فسيصل إليه رابط استعادة. تأكد من إعداد Redirect URLs في Supabase لتضمين رابط Netlify الحالي.";
+      } catch (error) {
+        resetMessage.className = "alert alert-error";
+        resetMessage.textContent = friendlyAuthError(error);
+      } finally {
+        resetMessage.classList.remove("hidden");
+        submit.disabled = false;
+        submit.textContent = "إرسال رابط الاستعادة";
+      }
+    });
+
+
+    // إدارة الواجهة وتشغيل وحدات CRUD على الجداول الموجودة فقط (لا ينشئ جداول أو migrations).
+    const TABLES = { customers:"customers", employees:"employees", receipts:"receipts", expenses:"expenses", collective_transport:"collective_transport", private_cars:"private_cars", passports:"passport_clients", branches:"branches", cashboxes:"cashboxes", bookings:"bookings" };
+    const MODULE_ORDER = ["dashboard","customers","bookings","passports","collective_transport","private_cars","receipts","expenses","cashboxes","branches","employees"];
+    const MODULE_LABELS = {dashboard:"لوحة التحكم", ...Object.fromEntries(Object.entries(MODULES).map(([k,v])=>[k,v.label]))};
+    let activeModule = "dashboard", records = [], editRecordId = null, dashboardLoaded = false;
+    const navList = document.getElementById("navList"), dashboardSection = document.getElementById("dashboardSection"), moduleSection = document.getElementById("moduleSection");
+    const recordForm = document.getElementById("recordForm"), formFields = document.getElementById("formFields"), tableHead = document.getElementById("tableHead"), tableBody = document.getElementById("tableBody");
+    function initializeBusinessUI(){ if(!sb)return; renderNav(); loadDashboard(); }
+    function renderNav(){ if(!navList)return; const icons={dashboard:"⌂",collective_transport:"🚌",private_cars:"🚘",passports:"▣",bookings:"✈",customers:"♙",receipts:"▤",expenses:"▤",cashboxes:"♙",employees:"♟",branches:"⌂"}; navList.innerHTML = MODULE_ORDER.filter(k=>k!=="dashboard").map(k=>`<button class="nav-item ${activeModule===k?'active':''}" data-module="${k}" type="button"><span>${esc(MODULE_LABELS[k]||k)}</span><span aria-hidden="true">${icons[k]||"▣"}</span></button>`).join(''); navList.querySelectorAll('[data-module]').forEach(b=>b.addEventListener('click',()=>openModule(b.dataset.module))); }
+    function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+    function toast(msg){const t=document.getElementById('toast');if(t){t.textContent=msg;t.classList.remove('hidden');setTimeout(()=>t.classList.add('hidden'),3500);}}
+    function openModule(key){activeModule=key;renderNav();document.getElementById('pageTitle').textContent=MODULE_LABELS[key]||key;dashboardSection.classList.toggle('hidden',key!=='dashboard');moduleSection.classList.toggle('hidden',key==='dashboard');if(key==='passports'){moduleSection.querySelectorAll(':scope > .card').forEach(el=>el.classList.add('hidden'));document.getElementById('passportWorkspace')?.classList.remove('hidden');renderPassportWorkspace();loadPassportData();return;}document.getElementById('passportWorkspace')?.classList.add('hidden');moduleSection.querySelectorAll(':scope > .card').forEach(el=>el.classList.remove('hidden'));if(key!=='dashboard'){renderForm(key);loadRecords(key);}else loadDashboard();}
+    function renderForm(key,record={}){const cfg=MODULES[key];if(!cfg)return;document.getElementById('formCardTitle').textContent=record.id?'تعديل سجل':'إضافة سجل جديد';document.getElementById('tableCardTitle').textContent='السجلات — '+cfg.label;formFields.innerHTML=cfg.fields.map(f=>fieldHtml(f,record[f.name])).join('');recordForm.dataset.module=key;document.getElementById('formMessage').className='alert hidden';}
+    function fieldHtml(f,val){let v=val??f.default??'';const req=f.required?'required':'';const cls=f.full?' style="grid-column:1/-1"':'';if(f.type==='textarea')return `<div class="form-group"${cls}><label>${esc(f.label)}</label><textarea name="${esc(f.name)}" ${req}>${esc(v)}</textarea></div>`;if(f.type==='select')return `<div class="form-group"${cls}><label>${esc(f.label)}</label><select name="${esc(f.name)}" ${req}>${(f.options||[]).map(o=>`<option value="${esc(o)}" ${String(v)===String(o)?'selected':''}>${esc(f.labels?.[o]||o)}</option>`).join('')}</select></div>`;return `<div class="form-group"${cls}><label>${esc(f.label)}</label><input name="${esc(f.name)}" type="${esc(f.type)}" ${f.step?`step="${esc(f.step)}"`:''} value="${esc(v)}" ${req}></div>`;}
+    // قسم الجوازات المخصص: يعتمد حصراً على البنية الفعلية لجدول passport_clients.
+    const PASSPORT_TABLE = 'passport_clients';
+    const PASSPORT_FIELDS = [
+      {name:'client_number',label:'رقم العميل',type:'number',required:true},
+      {name:'receipt_number',label:'رقم السند',type:'text'},
+      {name:'registration_date',label:'تاريخ التسجيل',type:'date',required:true,default:todayISO()},
+      {name:'full_name',label:'اسم العميل',type:'text',required:true},
+      {name:'phone',label:'رقم الهاتف',type:'text',required:true},
+      {name:'alt_phone',label:'رقم هاتف بديل',type:'text'},
+      {name:'national_id',label:'رقم الهوية',type:'text'},
+      {name:'current_passport_number',label:'رقم الجواز الحالي',type:'text'},
+      {name:'service_type',label:'نوع الخدمة',type:'select',options:['إصدار جواز','تجديد جواز','بدل فاقد','بدل تالف','أخرى']},
+      {name:'service_mode',label:'طريقة الخدمة',type:'select',options:['عادي','مستعجل']},
+      {name:'issue_location',label:'مكان الإصدار',type:'text'},
+      {name:'docs_received_date',label:'تاريخ استلام الوثائق',type:'date'},
+      {name:'sent_date',label:'تاريخ الإرسال',type:'date'},
+      {name:'completed_date',label:'تاريخ الإنجاز',type:'date'},
+      {name:'received_from_aden_date',label:'تاريخ الاستلام من عدن',type:'date'},
+      {name:'delivered_to_client_date',label:'تاريخ التسليم للعميل',type:'date'},
+      {name:'agreed_fee',label:'الرسوم المتفق عليها',type:'number',step:'0.01',default:0},
+      {name:'received_amount',label:'المبلغ المستلم',type:'number',step:'0.01',default:0},
+      {name:'case_status',label:'حالة المعاملة',type:'select',options:['لم يرسل','تم استلام الوثائق','تم الإرسال','قيد الإجراء','مكتمل','متوقف','ملغي'],default:'لم يرسل'},
+      {name:'delivery_status',label:'حالة التسليم',type:'select',options:['مجدولة','جاهز للاستلام','تم التسليم'],default:'مجدولة'},
+      {name:'responsible_employee',label:'الموظف المسؤول',type:'text',required:true,default:'عبدالرحمن'},
+      {name:'trip_id',label:'ربط برحلة (اختياري)',type:'select',options:[]},
+      {name:'notes',label:'ملاحظات',type:'textarea',full:true}
+    ];
+    let passportRows=[], passportTrips=[], passportEditing=null, passportView='dashboard';
+    const passportMoney=n=>Number(n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    function passportFieldHtml(f,row={}){let v=row[f.name]??f.default??'';if(f.name==='trip_id'&&v===null)v='';const req=f.required?'required':'';const style=f.full?' style="grid-column:1/-1"':'';if(f.type==='textarea')return `<div class="form-group"${style}><label>${esc(f.label)}</label><textarea name="${esc(f.name)}" ${req}>${esc(v)}</textarea></div>`;if(f.type==='select'){let opts=f.name==='trip_id'?[{value:'',label:'بدون ربط'} ,...passportTrips.map(t=>({value:String(t.id),label:`رحلة #${t.id}`}))]:(f.options||[]).map(x=>({value:x,label:x}));return `<div class="form-group"${style}><label>${esc(f.label)}</label><select name="${esc(f.name)}" ${req}>${opts.map(o=>`<option value="${esc(o.value)}" ${String(v)===String(o.value)?'selected':''}>${esc(o.label)}</option>`).join('')}</select></div>`;}return `<div class="form-group"${style}><label>${esc(f.label)}</label><input name="${esc(f.name)}" type="${esc(f.type)}" ${f.step?`step="${f.step}"`:''} value="${esc(v)}" ${req}></div>`;}
+    function renderPassportWorkspace(){const w=document.getElementById('passportWorkspace');if(!w)return;w.innerHTML=`<style>
+      #passportWorkspace .pw-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}#passportWorkspace .pw-tab{border:1px solid var(--border,#ddd);background:var(--card,#fff);padding:10px 14px;border-radius:9px;cursor:pointer;color:inherit}#passportWorkspace .pw-tab.active{background:var(--primary);color:#fff}#passportWorkspace .pw-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin-bottom:16px}#passportWorkspace .pw-kpi{background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:12px;padding:15px}#passportWorkspace .pw-kpi strong{display:block;font-size:23px;color:var(--primary);margin-top:7px}#passportWorkspace .pw-tools{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}#passportWorkspace .pw-tools input,#passportWorkspace .pw-tools select{min-width:160px;flex:1;padding:10px;border:1px solid var(--border,#ddd);border-radius:8px}#passportWorkspace .pw-table{min-width:950px}#passportWorkspace .pw-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}#passportWorkspace .pw-actions{display:flex;gap:6px;flex-wrap:wrap}#passportWorkspace .pw-muted{color:var(--muted,#777);font-size:13px}@media print{#passportWorkspace .pw-tabs,#passportWorkspace .pw-tools,#passportWorkspace .pw-actions,#passportWorkspace .btn{display:none!important}}
+      </style>
+      <div class="pw-tabs">
+        ${[['dashboard','لوحة التحكم'],['list','متابعة الجوازات'],['form','إدخال البيانات'],['trips','متابعة الرحلات'],['clients','صفحة العملاء']].map(([k,l])=>`<button type="button" class="pw-tab ${passportView===k?'active':''}" data-pw-view="${k}">${l}</button>`).join('')}
+      </div><div id="passportViewContent"></div>`;
+      w.querySelectorAll('[data-pw-view]').forEach(b=>b.addEventListener('click',()=>{passportView=b.dataset.pwView;renderPassportWorkspace();renderPassportView();}));renderPassportView();}
+    async function loadPassportData(){const w=document.getElementById('passportWorkspace');if(!w)return;const content=document.getElementById('passportViewContent');if(content)content.innerHTML='<div class="card">جار تحميل بيانات الجوازات…</div>';try{const [a,b]=await Promise.all([sb.from(PASSPORT_TABLE).select('*').order('registration_date',{ascending:false}).limit(2000),sb.from('passport_trips').select('*').limit(500)]);if(a.error)throw a.error;passportRows=a.data||[];passportTrips=b.error?[]:(b.data||[]);renderPassportView();}catch(e){if(content)content.innerHTML=`<div class="card alert alert-error">تعذر تحميل بيانات الجوازات: ${esc(e.message)}</div>`;}}
+    function renderPassportView(){const c=document.getElementById('passportViewContent');if(!c)return;const total=passportRows.length,done=passportRows.filter(r=>r.case_status==='مكتمل').length,ready=passportRows.filter(r=>r.delivery_status==='جاهز للاستلام').length,delivered=passportRows.filter(r=>r.delivery_status==='تم التسليم').length,fees=passportRows.reduce((a,r)=>a+Number(r.agreed_fee||0),0),paid=passportRows.reduce((a,r)=>a+Number(r.received_amount||0),0),remaining=passportRows.reduce((a,r)=>a+Number(r.remaining_amount??(Number(r.agreed_fee||0)-Number(r.received_amount||0))),0);
+      if(passportView==='dashboard'){c.innerHTML=`<div class="pw-kpis">${[['إجمالي المعاملات',total],['المعاملات المكتملة',done],['جاهز للاستلام',ready],['تم التسليم',delivered],['إجمالي الرسوم',passportMoney(fees)],['إجمالي المستلم',passportMoney(paid)],['إجمالي المتبقي',passportMoney(remaining)]].map(([l,v])=>`<div class="pw-kpi"><span>${l}</span><strong>${v}</strong></div>`).join('')}</div><div class="card"><div class="card-title">ملخص حالات المعاملات</div><div class="table-wrap"><table><thead><tr><th>الحالة</th><th>العدد</th></tr></thead><tbody>${['لم يرسل','تم استلام الوثائق','تم الإرسال','قيد الإجراء','مكتمل','متوقف','ملغي'].map(st=>`<tr><td>${st}</td><td>${passportRows.filter(r=>r.case_status===st).length}</td></tr>`).join('')}</tbody></table></div></div>`;return;}
+      if(passportView==='form'){renderPassportForm(c,passportEditing||{});return;}
+      if(passportView==='trips'){renderPassportTrips(c);return;}
+      if(passportView==='clients'){renderPassportClients(c);return;}
+      renderPassportList(c);
+    }
+    function renderPassportForm(c,row){c.innerHTML=`<div class="card"><div class="card-head"><div class="card-title">${passportEditing?'تعديل معاملة جواز':'تسجيل معاملة جواز جديدة'}</div><span class="pw-muted">البيانات تحفظ في جدول passport_clients</span></div><form id="passportForm"><div class="pw-form">${PASSPORT_FIELDS.map(f=>passportFieldHtml(f,row)).join('')}</div><div class="pw-tools"><button class="btn btn-primary" type="submit">${passportEditing?'حفظ التعديلات':'حفظ المعاملة'}</button><button class="btn btn-outline" type="button" id="pwClear">تفريغ الحقول</button><button class="btn btn-outline" type="button" id="pwCancel">إلغاء</button></div><div id="pwMessage" class="alert hidden"></div></form></div>`;
+      const form=c.querySelector('#passportForm');form.addEventListener('submit',async e=>{e.preventDefault();const btn=form.querySelector('[type=submit]');btn.disabled=true;try{const data={};for(const f of PASSPORT_FIELDS){const el=form.elements[f.name];if(!el)continue;let v=el.value;if(f.type==='number')v=v===''?null:Number(v);if(f.name==='trip_id')v=v===''?null:Number(v);data[f.name]=v===''?null:v;}data.agreed_fee=Number(data.agreed_fee||0);data.received_amount=Number(data.received_amount||0);data.remaining_amount=data.agreed_fee-data.received_amount;data.updated_at=new Date().toISOString();if(!passportEditing){data.created_at=new Date().toISOString();}if(data.delivery_status==='جاهز للاستلام'&&!data.notification_message){data.notification_message=`عميلنا العزيز ${data.full_name}، نحيطكم علماً بأن معاملتكم أصبحت جاهزة للاستلام. للاستفسار يرجى التواصل مع درب المشاعر.`;}const q=passportEditing?sb.from(PASSPORT_TABLE).update(data).eq('client_number',passportEditing.client_number):sb.from(PASSPORT_TABLE).insert(data);const {error}=await q;if(error)throw error;toast(passportEditing?'تم تحديث معاملة الجواز':'تم حفظ معاملة الجواز');passportEditing=null;passportView='list';renderPassportWorkspace();await loadPassportData();}catch(err){const m=form.querySelector('#pwMessage');m.textContent='تعذر الحفظ: '+err.message;m.className='alert alert-error';}finally{btn.disabled=false;}});
+      c.querySelector('#pwClear').addEventListener('click',()=>{passportEditing=null;renderPassportForm(c,{});});c.querySelector('#pwCancel').addEventListener('click',()=>{passportEditing=null;passportView='list';renderPassportWorkspace();});}
+    function renderPassportList(c){c.innerHTML=`<div class="card"><div class="card-head"><div class="card-title">متابعة معاملات الجوازات</div><button class="btn btn-primary btn-sm" id="pwNew">+ معاملة جديدة</button></div><div class="pw-tools"><input id="pwSearch" placeholder="بحث بالاسم أو الهاتف أو السند أو الجواز أو الهوية أو رقم العميل"><select id="pwStatus"><option value="">كل حالات المعاملة</option>${['لم يرسل','تم استلام الوثائق','تم الإرسال','قيد الإجراء','مكتمل','متوقف','ملغي'].map(x=>`<option>${x}</option>`).join('')}</select><select id="pwDelivery"><option value="">كل حالات التسليم</option><option>مجدولة</option><option>جاهز للاستلام</option><option>تم التسليم</option></select><button class="btn btn-outline btn-sm" id="pwExport">تصدير CSV</button><button class="btn btn-outline btn-sm" id="pwPrint">طباعة</button></div><div class="table-wrap"><table class="pw-table"><thead><tr><th>رقم العميل</th><th>رقم السند</th><th>الاسم</th><th>الهاتف</th><th>رقم الجواز</th><th>نوع الخدمة</th><th>حالة المعاملة</th><th>حالة التسليم</th><th>المتفق عليه</th><th>المستلم</th><th>المتبقي</th><th>الموظف</th><th>إجراءات</th></tr></thead><tbody id="pwRows"></tbody></table></div></div>`;
+      const draw=()=>{const term=(c.querySelector('#pwSearch').value||'').toLowerCase(),st=c.querySelector('#pwStatus').value,ds=c.querySelector('#pwDelivery').value;const rows=passportRows.filter(r=>(!term||Object.values(r).some(v=>String(v??'').toLowerCase().includes(term)))&&(!st||r.case_status===st)&&(!ds||r.delivery_status===ds));c.querySelector('#pwRows').innerHTML=rows.length?rows.map(r=>`<tr><td>${esc(r.client_number)}</td><td>${esc(r.receipt_number)}</td><td>${esc(r.full_name)}</td><td>${esc(r.phone)}</td><td>${esc(r.current_passport_number)}</td><td>${esc(r.service_type)}</td><td>${esc(r.case_status)}</td><td>${esc(r.delivery_status)}</td><td>${passportMoney(r.agreed_fee)}</td><td>${passportMoney(r.received_amount)}</td><td>${passportMoney(r.remaining_amount??(Number(r.agreed_fee||0)-Number(r.received_amount||0)))}</td><td>${esc(r.responsible_employee)}</td><td><div class="pw-actions"><button class="btn btn-outline btn-sm" data-pw-edit="${esc(r.client_number)}">تعديل</button><button class="btn btn-outline btn-sm" data-pw-msg="${esc(r.client_number)}">رسالة الجاهزية</button><button class="btn btn-danger btn-sm" data-pw-del="${esc(r.client_number)}">حذف</button></div></td></tr>`).join(''):'<tr><td colspan="13">لا توجد معاملات مطابقة.</td></tr>';};draw();c.querySelector('#pwSearch').addEventListener('input',draw);c.querySelector('#pwStatus').addEventListener('change',draw);c.querySelector('#pwDelivery').addEventListener('change',draw);c.querySelector('#pwNew').addEventListener('click',()=>{passportEditing=null;passportView='form';renderPassportWorkspace();});c.querySelector('#pwPrint').addEventListener('click',()=>window.print());c.querySelector('#pwExport').addEventListener('click',()=>exportPassportCsv(passportRows));
+      c.querySelector('#pwRows').addEventListener('click',async e=>{const edit=e.target.closest('[data-pw-edit]'),del=e.target.closest('[data-pw-del]'),msg=e.target.closest('[data-pw-msg]');if(edit){passportEditing=passportRows.find(r=>String(r.client_number)===edit.dataset.pwEdit);passportView='form';renderPassportWorkspace();}if(del){const id=del.dataset.pwDel;if(!confirm('هل تريد حذف معاملة الجواز رقم '+id+'؟'))return;const {error}=await sb.from(PASSPORT_TABLE).delete().eq('client_number',id);if(error){toast('تعذر الحذف: '+error.message);return;}toast('تم حذف المعاملة');await loadPassportData();}if(msg){const r=passportRows.find(x=>String(x.client_number)===msg.dataset.pwMsg);const text=r.notification_message||`عميلنا العزيز ${r.full_name}، نحيطكم علماً بأن معاملتكم أصبحت جاهزة للاستلام. رقم المعاملة: ${r.client_number}.`;try{await navigator.clipboard.writeText(text);toast('تم نسخ رسالة الجاهزية');}catch(_){window.prompt('انسخ رسالة الجاهزية:',text);}if(r.phone){let wa=r.phone.replace(/[^0-9]/g,'');if(wa.startsWith('0'))wa=wa.slice(1);if(wa.length===9&&wa.startsWith('7'))wa='967'+wa;window.open('https://wa.me/'+wa,'_blank');}}});}
+    function renderPassportTrips(c){const tripIds=new Set(passportRows.map(r=>r.trip_id).filter(x=>x!==null&&x!==undefined));c.innerHTML=`<div class="card"><div class="card-title">متابعة رحلات الجوازات</div><p class="pw-muted">تعرض هذه الصفحة الرحلات الموجودة في passport_trips، والمعاملات المرتبطة بكل رحلة. لم يتم افتراض أعمدة غير معروفة لجدول الرحلات.</p><div class="table-wrap"><table><thead><tr><th>رقم الرحلة</th><th>عدد المعاملات المرتبطة</th><th>أرقام العملاء</th><th>أسماء العملاء</th></tr></thead><tbody>${passportTrips.length?passportTrips.map(t=>{const linked=passportRows.filter(r=>String(r.trip_id)===String(t.id));return `<tr><td>${esc(t.id)}</td><td>${linked.length}</td><td>${linked.map(r=>esc(r.client_number)).join('، ')||'—'}</td><td>${linked.map(r=>esc(r.full_name)).join('، ')||'—'}</td></tr>`;}).join(''):'<tr><td colspan="4">لا توجد رحلات ظاهرة أو تعذر قراءة جدول الرحلات.</td></tr>'}</tbody></table></div></div>`;}
+    function renderPassportClients(c){const map=new Map();passportRows.forEach(r=>{const key=String(r.phone||r.full_name||r.client_number);if(!map.has(key))map.set(key,{name:r.full_name,phone:r.phone,alt:r.alt_phone,national_id:r.national_id,rows:[]});map.get(key).rows.push(r);});const clients=[...map.values()];c.innerHTML=`<div class="card"><div class="card-title">دليل عملاء الجوازات</div><p class="pw-muted">قائمة العملاء مستخرجة من معاملات الجوازات الحالية، دون إنشاء جدول عملاء جديد أو تغيير جدول customers.</p><div class="pw-tools"><input id="pwClientSearch" placeholder="ابحث باسم العميل أو الهاتف أو الهوية"></div><div class="table-wrap"><table><thead><tr><th>اسم العميل</th><th>الهاتف</th><th>الهاتف البديل</th><th>رقم الهوية</th><th>عدد المعاملات</th><th>أرقام المعاملات</th></tr></thead><tbody id="pwClientRows"></tbody></table></div></div>`;const draw=()=>{const q=c.querySelector('#pwClientSearch').value.toLowerCase(),filtered=clients.filter(x=>[x.name,x.phone,x.alt,x.national_id].some(v=>String(v||'').toLowerCase().includes(q)));c.querySelector('#pwClientRows').innerHTML=filtered.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.phone)}</td><td>${esc(x.alt)}</td><td>${esc(x.national_id)}</td><td>${x.rows.length}</td><td>${x.rows.map(r=>esc(r.client_number)).join('، ')}</td></tr>`).join('')||'<tr><td colspan="6">لا توجد نتائج.</td></tr>';};draw();c.querySelector('#pwClientSearch').addEventListener('input',draw);}
+    function exportPassportCsv(rows){const cols=PASSPORT_FIELDS.map(f=>f.name).concat(['remaining_amount']);const csv=[cols.join(','),...rows.map(r=>cols.map(k=>'"'+String(r[k]??'').replace(/"/g,'""')+'"').join(','))].join('\r\n');const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='passport-clients.csv';a.click();URL.revokeObjectURL(a.href);}
+    function showFormMsg(msg,ok=false){const el=document.getElementById('formMessage');el.textContent=msg;el.className='alert '+(ok?'alert-success':'alert-error');}
+    async function loadRecords(key){if(!sb||!TABLES[key])return;tableHead.innerHTML='';tableBody.innerHTML='<tr><td colspan="20">جار تحميل البيانات…</td></tr>';try{let q=sb.from(TABLES[key]).select('*').order('created_at',{ascending:false}).limit(500);const {data,error}=await q;if(error)throw error;records=data||[];renderRecords(key);}catch(e){tableBody.innerHTML=`<tr><td colspan="20">تعذر قراءة جدول ${esc(TABLES[key])}: ${esc(e.message)}. لم يتم تغيير البيانات. تحقق من اسم الجدول والصلاحيات.</td></tr>`;toast('تعذر تحميل '+MODULES[key].label);}}
+    function renderRecords(key){const cfg=MODULES[key];const cols=[...cfg.fields.map(f=>f.name), 'id'];tableHead.innerHTML='<tr>'+cols.map(c=>`<th>${esc(cfg.fields.find(f=>f.name===c)?.label||c)}</th>`).join('')+'<th>إجراءات</th></tr>';const term=(document.getElementById('searchInput')?.value||'').trim().toLowerCase();const filtered=records.filter(r=>!term||Object.values(r).some(v=>String(v??'').toLowerCase().includes(term)));tableBody.innerHTML=filtered.length?filtered.map(r=>`<tr>${cols.map(c=>`<td>${esc(r[c])}</td>`).join('')}<td><button class="btn btn-outline btn-sm" data-edit="${esc(r.id)}">تعديل</button> <button class="btn btn-danger btn-sm" data-delete="${esc(r.id)}">حذف</button></td></tr>`).join(''):'<tr><td colspan="20">لا توجد سجلات مطابقة.</td></tr>';tableBody.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>{const r=records.find(x=>String(x.id)===b.dataset.edit);editRecordId=r?.id;renderForm(key,r||{});window.scrollTo({top:0,behavior:'smooth'});}));tableBody.querySelectorAll('[data-delete]').forEach(b=>b.addEventListener('click',()=>deleteRecord(key,b.dataset.delete)));}
+    async function deleteRecord(key,id){if(!confirm('هل أنت متأكد من حذف هذا السجل؟ لا يمكن التراجع عن الحذف.'))return;try{const {error}=await sb.from(TABLES[key]).delete().eq('id',id);if(error)throw error;toast('تم الحذف');loadRecords(key);loadDashboard();}catch(e){toast('فشل الحذف: '+e.message);}}
+    recordForm?.addEventListener('submit',async e=>{e.preventDefault();const key=recordForm.dataset.module;if(!key||!sb)return;const btn=document.getElementById('submitRecordBtn');btn.disabled=true;try{const data={};MODULES[key].fields.forEach(f=>{const el=recordForm.elements[f.name];if(el){let v=el.value;if(f.type==='number'&&v!=='')v=Number(v);if(f.type==='select'&&['is_active'].includes(f.name))v=v==='true';data[f.name]=v===''?null:v;}});let q=editRecordId?sb.from(TABLES[key]).update(data).eq('id',editRecordId):sb.from(TABLES[key]).insert(data);const {error}=await q;if(error)throw error;toast(editRecordId?'تم تحديث السجل':'تم حفظ السجل');editRecordId=null;renderForm(key);loadRecords(key);loadDashboard();}catch(err){showFormMsg('تعذر الحفظ: '+err.message+' — راجع أسماء الأعمدة وسياسات RLS.');}finally{btn.disabled=false;}});
+    document.getElementById('clearFormBtn')?.addEventListener('click',()=>{editRecordId=null;renderForm(activeModule);});document.getElementById('searchInput')?.addEventListener('input',()=>renderRecords(activeModule));document.getElementById('refreshBtn')?.addEventListener('click',()=>activeModule==='dashboard'?loadDashboard():loadRecords(activeModule));document.getElementById('mobileMenuBtn')?.addEventListener('click',()=>document.getElementById('sidebar')?.classList.toggle('open'));
+    document.getElementById('exportCsvBtn')?.addEventListener('click',()=>{const key=activeModule;if(!records.length){toast('لا توجد بيانات للتصدير');return;}const cols=MODULES[key].fields.map(f=>f.name);const csv=[cols.join(','),...records.map(r=>cols.map(c=>'"'+String(r[c]??'').replace(/"/g,'""')+'"').join(','))].join('\r\n');const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=key+'-export.csv';a.click();URL.revokeObjectURL(a.href);});
+    async function loadDashboard(){if(!sb)return;const grid=document.getElementById('kpiGrid'),summary=document.getElementById('servicesSummaryBody');grid.innerHTML='';summary.innerHTML='';const keys=Object.keys(TABLES);let counts={},financial=[];for(const key of keys){try{const {data,error}=await sb.from(TABLES[key]).select('*').limit(1000);if(error)throw error;counts[key]=(data||[]).length;const cfg=MODULES[key]||{};if(cfg.totalField){const total=(data||[]).reduce((a,r)=>a+Number(r[cfg.totalField]||0),0),paid=(data||[]).reduce((a,r)=>a+Number(r[cfg.paidField]||0),0);financial.push({key,total,paid,remaining:total-paid});}}catch(e){counts[key]=null;}}const cards=[['عدد العملاء',counts.customers],['عدد الحجوزات',counts.bookings],['عدد المقبوضات',counts.receipts],['عدد المصروفات',counts.expenses]];grid.innerHTML=cards.map(([l,v],i)=>`<div class="card"><div class="kpi-icon">${['▤','▣','▤','▤'][i]}</div><div class="card-title">${esc(l)}</div><div style="font-size:28px;font-weight:bold;color:var(--primary)">${v===null?'—':Number(v).toLocaleString('en-US')}</div><div class="kpi-note">إجمالي السجلات المسجلة</div></div>`).join('');summary.innerHTML=financial.map(x=>`<tr><td>${esc(MODULES[x.key]?.label||x.key)}</td><td>${counts[x.key]??'—'}</td><td>${x.total.toLocaleString()}</td><td>${x.paid.toLocaleString()}</td><td>${x.remaining.toLocaleString()}</td></tr>`).join('')||'<tr><td colspan="5">تعذر إظهار الملخص المالي أو لم تتوفر جداول ذات إجمالي ومدفوع معرفين.</td></tr>';}
+    // دعم عرض رسالة تحديث كلمة المرور عند رجوع رابط Supabase.
+    if(sb){sb.auth.onAuthStateChange((event)=>{if(event==='PASSWORD_RECOVERY'){toast('وصلت إلى جلسة استعادة كلمة المرور. استخدم صفحة Supabase Auth لتعيين كلمة جديدة إن لم تظهر واجهة تغييرها.')}});}
+    
+    document.querySelectorAll('.primary-nav [data-module]').forEach(b=>b.addEventListener('click',()=>openModule(b.dataset.module)));
+    const dateNode=document.getElementById('dashboardDate');
+    if(dateNode) dateNode.textContent=new Intl.DateTimeFormat('ar-YE',{weekday:'long',year:'numeric',month:'long',day:'numeric'}).format(new Date());
+    initializeAuth();
+  </script>
+</body>
+</html>

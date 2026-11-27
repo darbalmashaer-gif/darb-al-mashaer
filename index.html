@@ -434,52 +434,6 @@
       .main-area { margin-right: 0; }
       .mobile-menu-btn { display: inline-flex; }
     }
-
-    /* تنسيقات نظام متابعة الجوازات وصفحة العملاء */
-    .passport-stats-table {
-      width: 100%;
-      border-collapse: collapse;
-      background: #fff;
-    }
-    .passport-stats-table th,
-    .passport-stats-table td {
-      border: 1px solid var(--border);
-      padding: 11px 14px;
-      text-align: right;
-      font-size: 14px;
-    }
-    .passport-stats-table th {
-      background: #142b4b;
-      color: #fff;
-    }
-    .passport-stats-table td.stat-val {
-      font-weight: 800;
-      font-size: 16px;
-      color: #142b4b;
-      text-align: center;
-      width: 170px;
-      background: #fbfbfd;
-    }
-    .passport-stats-table tr.rem-row td {
-      background: #fbf8ed;
-      color: #8a6414;
-      font-weight: 800;
-    }
-    .passport-readonly {
-      background: #f5f6f5 !important;
-      color: #142b4b !important;
-      font-weight: 700 !important;
-    }
-    .passport-badge {
-      display: inline-block;
-      padding: 2px 9px;
-      border-radius: 999px;
-      background: var(--primary-soft);
-      color: var(--primary);
-      font-weight: 700;
-      font-size: 12px;
-    }
-
   </style>
 </head>
 <body>
@@ -632,256 +586,6 @@
             </div>
           </div>
         </section>
-
-        <!-- قسم نظام متابعة الجوازات (الجدول الإحصائي + زر الانتقال إلى العملاء) -->
-        <section id="passportTrackingSection" class="hidden">
-          <div class="card">
-            <div class="card-head">
-              <div class="card-title" style="font-size:18px;color:#142b4b;">نظام متابعة الجوازات</div>
-              <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                <button type="button" class="btn btn-primary btn-sm" id="goToPassportClientsBtn" style="background:#c5a45b;color:#102747;">الانتقال إلى العملاء ←</button>
-                <button type="button" class="btn btn-outline btn-sm" id="backToDashboardFromPassportBtn">العودة للوحة التحكم</button>
-              </div>
-            </div>
-            <div class="table-wrap">
-              <table class="passport-stats-table">
-                <thead>
-                  <tr>
-                    <th>البيان</th>
-                    <th>العدد / القيمة</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr><td>إجمالي العملاء</td><td id="pstat-total_clients" class="stat-val">0</td></tr>
-                  <tr><td>إصدار جوازات الأطفال</td><td id="pstat-child_new_passports" class="stat-val">0</td></tr>
-                  <tr><td>تجديد جوازات الأطفال</td><td id="pstat-child_renew_passports" class="stat-val">0</td></tr>
-                  <tr><td>تجديد جوازات الأشخاص البالغين</td><td id="pstat-adult_renew_passports" class="stat-val">0</td></tr>
-                  <tr><td>خدمات عن بُعد</td><td id="pstat-remote_services" class="stat-val">0</td></tr>
-                  <tr><td>خدمات بحضور</td><td id="pstat-in_person_services" class="stat-val">0</td></tr>
-                  <tr><td>معاملات لم تُرسل</td><td id="pstat-not_sent_cases" class="stat-val">0</td></tr>
-                  <tr><td>معاملات قيد الإجراء</td><td id="pstat-in_progress_cases" class="stat-val">0</td></tr>
-                  <tr><td>جوازات جاهزة للاستلام</td><td id="pstat-ready_for_pickup_passports" class="stat-val">0</td></tr>
-                  <tr><td>جوازات تم تسليمها</td><td id="pstat-delivered_passports" class="stat-val">0</td></tr>
-                  <tr class="rem-row"><td>إجمالي المبالغ المتبقية</td><td id="pstat-total_remaining_amount" class="stat-val">0</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <!-- قسم صفحة العملاء (معاملات الجوازات الكاملة + البحث برقم سند القبض) -->
-        <section id="passportClientsSection" class="hidden">
-          <div class="card">
-            <div class="card-head">
-              <div class="card-title" style="font-size:18px;color:#142b4b;">العملاء — نظام متابعة الجوازات</div>
-              <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                <button type="button" class="btn btn-outline btn-sm" id="backToPassportTrackingBtn">← نظام متابعة الجوازات</button>
-                <button type="button" class="btn btn-outline btn-sm" id="backToDashboardFromClientsBtn">لوحة التحكم</button>
-              </div>
-            </div>
-
-            <div class="toolbar" style="margin-bottom:14px;">
-              <input id="passportReceiptSearchInput" type="text" class="search-input" placeholder="بحث برقم سند القبض، اسم العميل الرباعي، أو رقم الهاتف..." />
-              <button type="button" class="btn btn-primary btn-sm" id="passportSearchBtn">بحث</button>
-              <button type="button" class="btn btn-outline btn-sm" id="passportResetSearchBtn">إظهار الكل</button>
-            </div>
-
-            <form id="passportClientForm">
-              <input type="hidden" id="pc_editing_client_number" />
-              <div class="form-grid">
-                <div class="field">
-                  <label for="pc_client_number">رقم العميل</label>
-                  <input id="pc_client_number" type="text" class="passport-readonly" readonly placeholder="تلقائي" />
-                </div>
-                <div class="field">
-                  <label for="pc_receipt_number">رقم سند القبض</label>
-                  <input id="pc_receipt_number" type="text" placeholder="أدخل رقم سند القبض" />
-                </div>
-                <div class="field">
-                  <label for="pc_registration_date">تاريخ التسجيل</label>
-                  <input id="pc_registration_date" type="date" required />
-                </div>
-                <div class="field">
-                  <label for="pc_full_name">اسم العميل الرباعي *</label>
-                  <input id="pc_full_name" type="text" required placeholder="الاسم الرباعي للعميل" />
-                </div>
-                <div class="field">
-                  <label for="pc_phone">رقم الهاتف *</label>
-                  <input id="pc_phone" type="text" required placeholder="رقم الهاتف" />
-                </div>
-                <div class="field">
-                  <label for="pc_alt_phone">رقم الهاتف البديل</label>
-                  <input id="pc_alt_phone" type="text" placeholder="رقم الهاتف البديل" />
-                </div>
-                <div class="field">
-                  <label for="pc_national_id">رقم الهوية</label>
-                  <input id="pc_national_id" type="text" placeholder="رقم الهوية" />
-                </div>
-                <div class="field">
-                  <label for="pc_current_passport_number">رقم الجواز الحالي</label>
-                  <input id="pc_current_passport_number" type="text" placeholder="رقم الجواز الحالي" />
-                </div>
-
-                <div class="field">
-                  <label for="pc_service_type">نوع الخدمة</label>
-                  <select id="pc_service_type">
-                    <option value="">-- اختر نوع الخدمة --</option>
-                    <option value="إصدار جواز شخص بالغ">إصدار جواز شخص بالغ</option>
-                    <option value="تجديد جواز شخص بالغ">تجديد جواز شخص بالغ</option>
-                    <option value="إصدار جواز أطفال">إصدار جواز أطفال</option>
-                    <option value="تجديد جواز أطفال">تجديد جواز أطفال</option>
-                    <option value="بدل فاقد / تالف">بدل فاقد / تالف</option>
-                    <option value="أخرى">أخرى</option>
-                  </select>
-                </div>
-
-                <div class="field">
-                  <label for="pc_service_mode">طريقة الخدمة</label>
-                  <select id="pc_service_mode">
-                    <option value="">-- اختر طريقة الخدمة --</option>
-                    <option value="عادي">عادي</option>
-                    <option value="مستعجل">مستعجل</option>
-                    <option value="عن بُعد">عن بُعد</option>
-                    <option value="بحضور">بحضور</option>
-                  </select>
-                </div>
-
-                <div class="field">
-                  <label for="pc_issue_location">مكان الإصدار</label>
-                  <select id="pc_issue_location">
-                    <option value="">-- اختر مكان الإصدار --</option>
-                    <option value="عدن">عدن</option>
-                    <option value="شبوة">شبوة</option>
-                    <option value="حضرموت">حضرموت</option>
-                    <option value="المكلا">المكلا</option>
-                    <option value="المهرة">المهرة</option>
-                    <option value="أخرى">أخرى</option>
-                  </select>
-                </div>
-
-                <div class="field">
-                  <label for="pc_docs_received_date">تاريخ استلام الوثائق</label>
-                  <input id="pc_docs_received_date" type="date" />
-                </div>
-                <div class="field">
-                  <label for="pc_sent_date">تاريخ إرسال المعاملة</label>
-                  <input id="pc_sent_date" type="date" />
-                </div>
-                <div class="field">
-                  <label for="pc_completed_date">تاريخ إنجاز الجواز</label>
-                  <input id="pc_completed_date" type="date" />
-                </div>
-                <div class="field">
-                  <label for="pc_received_from_aden_date">تاريخ استلام الجواز</label>
-                  <input id="pc_received_from_aden_date" type="date" />
-                </div>
-                <div class="field">
-                  <label for="pc_delivered_to_client_date">تاريخ تسليم الجواز للعميل</label>
-                  <input id="pc_delivered_to_client_date" type="date" />
-                </div>
-
-                <div class="field">
-                  <label for="pc_agreed_fee">الرسوم المتفق عليها</label>
-                  <input id="pc_agreed_fee" type="number" step="0.01" value="0" />
-                </div>
-                <div class="field">
-                  <label for="pc_received_amount">المبلغ المستلم</label>
-                  <input id="pc_received_amount" type="number" step="0.01" value="0" />
-                </div>
-                <div class="field">
-                  <label for="pc_remaining_amount">المتبقي</label>
-                  <input id="pc_remaining_amount" type="text" class="passport-readonly" readonly value="0" />
-                </div>
-
-                <div class="field">
-                  <label for="pc_case_status">حالة المعاملة</label>
-                  <select id="pc_case_status">
-                    <option value="لم يرسل">لم يرسل</option>
-                    <option value="قيد المعاملة">قيد المعاملة</option>
-                    <option value="تم الإنجاز">تم الإنجاز</option>
-                    <option value="جاهز للاستلام">جاهز للاستلام</option>
-                    <option value="تم التسليم">تم التسليم</option>
-                  </select>
-                </div>
-
-                <div class="field">
-                  <label for="pc_delivery_status">حالة التسليم</label>
-                  <select id="pc_delivery_status">
-                    <option value="مجدولة">مجدولة</option>
-                    <option value="في الطريق">في الطريق</option>
-                    <option value="عادت من عدن">عادت من عدن</option>
-                    <option value="مكتملة">مكتملة</option>
-                    <option value="ملغاة">ملغاة</option>
-                  </select>
-                </div>
-
-                <div class="field">
-                  <label for="pc_responsible_employee">الموظف المسؤول</label>
-                  <input id="pc_responsible_employee" type="text" value="عبدالرحمن" required />
-                </div>
-
-                <div class="field full">
-                  <label for="pc_notification_message">رسالة إشعار العميل (تلقائية)</label>
-                  <textarea id="pc_notification_message" rows="2" class="passport-readonly" readonly></textarea>
-                </div>
-
-                <div class="field full">
-                  <label for="pc_notes">ملاحظات</label>
-                  <textarea id="pc_notes" rows="2" placeholder="ملاحظات إضافية"></textarea>
-                </div>
-              </div>
-
-              <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
-                <button type="submit" class="btn btn-primary" id="pcSubmitBtn">حفظ بيانات العميل</button>
-                <button type="button" class="btn btn-outline" id="pcClearBtn">تفريغ الحقول</button>
-              </div>
-              <div id="pcFormMessage" class="alert hidden"></div>
-            </form>
-          </div>
-
-          <div class="card">
-            <div class="card-head">
-              <div class="card-title">سجل عملاء الجوازات</div>
-            </div>
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>رقم العميل</th>
-                    <th>رقم سند القبض</th>
-                    <th>تاريخ التسجيل</th>
-                    <th>اسم العميل الرباعي</th>
-                    <th>رقم الهاتف</th>
-                    <th>البديل</th>
-                    <th>رقم الهوية</th>
-                    <th>الجواز الحالي</th>
-                    <th>نوع الخدمة</th>
-                    <th>طريقة الخدمة</th>
-                    <th>مكان الإصدار</th>
-                    <th>استلام الوثائق</th>
-                    <th>إرسال المعاملة</th>
-                    <th>إنجاز الجواز</th>
-                    <th>استلام الجواز</th>
-                    <th>تسليم للعميل</th>
-                    <th>الرسوم</th>
-                    <th>المستلم</th>
-                    <th>المتبقي</th>
-                    <th>حالة المعاملة</th>
-                    <th>حالة التسليم</th>
-                    <th>رسالة الإشعار</th>
-                    <th>الموظف المسؤول</th>
-                    <th>ملاحظات</th>
-                    <th>إجراءات</th>
-                  </tr>
-                </thead>
-                <tbody id="passportClientsTableBody">
-                  <tr><td colspan="25">جارٍ تحميل البيانات…</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
       </main>
     </div>
   </div>
@@ -1005,17 +709,33 @@
           { name: "notes", label: "ملاحظات", type: "textarea", full: true }
         ]
       },
-      // تعريف قسم الجوازات غير مكتمل في الملف الأصلي؛ نغلق التعريف
-      // دون افتراض أسماء جداول أو حقول غير موجودة في المصدر.
       passports: {
         label: "الجوازات",
         fields: [
           { name: "customer_name", label: "اسم صاحب الجواز", type: "text", required: true },
           { name: "passport_number", label: "رقم الجواز", type: "text", required: true },
           { name: "nationality", label: "الجنسية", type: "text" },
+          { name: "service_type", label: "انواع الخدمة", type: "select", options: ["عـــــــــادي", "مــســتــعـجـل"], default: "عـــــــــادي" },
+          { name: "service_method", label: "طريقة الخدمة", type: "select", options: ["عن بُــعــد", "بحضور"], default: "عن بُــعــد" },
           { name: "issue_date", label: "تاريخ الإصدار", type: "date" },
           { name: "expiry_date", label: "تاريخ الانتهاء", type: "date" },
           { name: "status", label: "الحالة", type: "text" },
+          { name: "notes", label: "ملاحظات", type: "textarea", full: true }
+        ]
+      },
+      trip_tracking: {
+        label: "متابعة الرحلات",
+        fields: [
+          { name: "trip_number", label: "رقم الرحلة", type: "text", required: true },
+          { name: "departure_date", label: "تاريخ الذهاب", type: "date" },
+          { name: "passport_issue_place", label: "مكان اصدار الجواز", type: "text" },
+          { name: "planned_return_date", label: "تاريخ العودة المخطط", type: "date" },
+          { name: "actual_return_date", label: "تاريخ العودة الفعلي", type: "date" },
+          { name: "driver_name", label: "اسم السائق", type: "text" },
+          { name: "phone", label: "رقم الهاتف", type: "text" },
+          { name: "car_number", label: "رقم السيارة", type: "text" },
+          { name: "clients_count", label: "عدد العملاء", type: "number", default: 0 },
+          { name: "trip_status", label: "حالة الرحلة", type: "select", options: ["مجدولة", "في الطريق", "عادت من الرحلة", "مكتملة", "ملغاة"], default: "مجدولة" },
           { name: "notes", label: "ملاحظات", type: "textarea", full: true }
         ]
       },
@@ -1256,38 +976,25 @@
 
 
     // إدارة الواجهة وتشغيل وحدات CRUD على الجداول الموجودة فقط (لا ينشئ جداول أو migrations).
-    const TABLES = { customers:"customers", employees:"employees", receipts:"receipts", expenses:"expenses", collective_transport:"collective_transport", private_cars:"private_cars", passports:"passports", branches:"branches", cashboxes:"cashboxes", bookings:"bookings" };
-    const MODULE_ORDER = ["dashboard","customers","bookings","passports","collective_transport","private_cars","receipts","expenses","cashboxes","branches","employees"];
+    const TABLES = { customers:"customers", employees:"employees", receipts:"receipts", expenses:"expenses", collective_transport:"collective_transport", private_cars:"private_cars", passports:"passports", trip_tracking:"trip_tracking", branches:"branches", cashboxes:"cashboxes", bookings:"bookings" };
+    const MODULE_ORDER = ["dashboard","customers","bookings","passports","trip_tracking","collective_transport","private_cars","receipts","expenses","cashboxes","branches","employees"];
     const MODULE_LABELS = {dashboard:"لوحة التحكم", ...Object.fromEntries(Object.entries(MODULES).map(([k,v])=>[k,v.label]))};
     let activeModule = "dashboard", records = [], editRecordId = null, dashboardLoaded = false;
     const navList = document.getElementById("navList"), dashboardSection = document.getElementById("dashboardSection"), moduleSection = document.getElementById("moduleSection");
     const recordForm = document.getElementById("recordForm"), formFields = document.getElementById("formFields"), tableHead = document.getElementById("tableHead"), tableBody = document.getElementById("tableBody");
     function initializeBusinessUI(){ if(!sb)return; renderNav(); loadDashboard(); }
-    function renderNav(){ if(!navList)return; const icons={dashboard:"⌂",collective_transport:"🚌",private_cars:"🚘",passports:"▣",bookings:"✈",customers:"♙",receipts:"▤",expenses:"▤",cashboxes:"♙",employees:"♟",branches:"⌂"}; navList.innerHTML = MODULE_ORDER.filter(k=>k!=="dashboard").map(k=>`<button class="nav-item ${activeModule===k?'active':''}" data-module="${k}" type="button"><span>${esc(MODULE_LABELS[k]||k)}</span><span aria-hidden="true">${icons[k]||"▣"}</span></button>`).join(''); navList.querySelectorAll('[data-module]').forEach(b=>b.addEventListener('click',()=>openModule(b.dataset.module))); }
+    function renderNav(){ if(!navList)return; const icons={dashboard:"⌂",collective_transport:"🚌",private_cars:"🚘",passports:"▣",trip_tracking:"🚐",bookings:"✈",customers:"♙",receipts:"▤",expenses:"▤",cashboxes:"♙",employees:"♟",branches:"⌂"}; navList.innerHTML = MODULE_ORDER.filter(k=>k!=="dashboard").map(k=>`<button class="nav-item ${activeModule===k?'active':''}" data-module="${k}" type="button"><span>${esc(MODULE_LABELS[k]||k)}</span><span aria-hidden="true">${icons[k]||"▣"}</span></button>`).join(''); navList.querySelectorAll('[data-module]').forEach(b=>b.addEventListener('click',()=>openModule(b.dataset.module))); }
     function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
     function toast(msg){const t=document.getElementById('toast');if(t){t.textContent=msg;t.classList.remove('hidden');setTimeout(()=>t.classList.add('hidden'),3500);}}
-    function openModule(key){
-      if(key==='passports'){openPassportTrackingPage();return;}
-      activeModule=key;
-      renderNav();
-      hideAllMainViews();
-      document.getElementById('pageTitle').textContent=MODULE_LABELS[key]||key;
-      if(key==='dashboard'){dashboardSection.classList.remove('hidden');loadDashboard();}
-      else{moduleSection.classList.remove('hidden');renderForm(key);loadRecords(key);}
-    }
+    function openModule(key){activeModule=key;renderNav();document.getElementById('pageTitle').textContent=MODULE_LABELS[key]||key;dashboardSection.classList.toggle('hidden',key!=='dashboard');moduleSection.classList.toggle('hidden',key==='dashboard');if(key!=='dashboard'){renderForm(key);loadRecords(key);}else loadDashboard();}
     function renderForm(key,record={}){const cfg=MODULES[key];if(!cfg)return;document.getElementById('formCardTitle').textContent=record.id?'تعديل سجل':'إضافة سجل جديد';document.getElementById('tableCardTitle').textContent='السجلات — '+cfg.label;formFields.innerHTML=cfg.fields.map(f=>fieldHtml(f,record[f.name])).join('');recordForm.dataset.module=key;document.getElementById('formMessage').className='alert hidden';}
-    function fieldHtml(f,val){let v=val??f.default??'';const req=f.required?'required':'';const cls=f.full?' style="grid-column:1/-1"':'';if(f.type==='textarea')return `<div class="form-group"${cls}><label>${esc(f.label)}</label><textarea name="${esc(f.name)}" ${req}>${esc(v)}</textarea></div>`;if(f.type==='select')return `<div class="form-group"${cls}><label>${esc(f.label)}</label><select name="${esc(f.name)}" ${req}>${(f.options||[]).map(o=>`<option value="${esc(o)}" ${String(v)===String(o)?'selected':''}>${esc(f.labels?.[o]||o)}</option>`).join('')}</select></div>`;return `<div class="form-group"${cls}><label>${esc(f.label)}</label><input name="${esc(f.name)}" type="${esc(f.type)}" ${f.step?`step="${esc(f.step)}"`:''} value="${esc(v)}" ${req}></div>`;}
+    function fieldHtml(f,val){let v=val??f.default??'';const req=f.required?'required':'';const cls=f.full?' style="grid-column:1/-1"':'';if(f.type==='textarea')return `<div class="form-group"${cls}><label>${esc(f.label)}</label><textarea name="${esc(f.name)}" ${req}>${esc(v)}</textarea></div>`;if(f.type==='select')return `<div class="form-group"${cls}><label>${esc(f.label)}</label><select name="${esc(f.name)}" ${req}><option value="">-- اختر ${esc(f.label)} --</option>${(f.options||[]).map(o=>`<option value="${esc(o)}" ${String(v).trim()===String(o).trim()?'selected':''}>${esc(f.labels?.[o]||o)}</option>`).join('')}</select></div>`;return `<div class="form-group"${cls}><label>${esc(f.label)}</label><input name="${esc(f.name)}" type="${esc(f.type)}" ${f.step?`step="${esc(f.step)}"`:''} value="${esc(v)}" ${req}></div>`;}
     function showFormMsg(msg,ok=false){const el=document.getElementById('formMessage');el.textContent=msg;el.className='alert '+(ok?'alert-success':'alert-error');}
     async function loadRecords(key){if(!sb||!TABLES[key])return;tableHead.innerHTML='';tableBody.innerHTML='<tr><td colspan="20">جار تحميل البيانات…</td></tr>';try{let q=sb.from(TABLES[key]).select('*').order('created_at',{ascending:false}).limit(500);const {data,error}=await q;if(error)throw error;records=data||[];renderRecords(key);}catch(e){tableBody.innerHTML=`<tr><td colspan="20">تعذر قراءة جدول ${esc(TABLES[key])}: ${esc(e.message)}. لم يتم تغيير البيانات. تحقق من اسم الجدول والصلاحيات.</td></tr>`;toast('تعذر تحميل '+MODULES[key].label);}}
     function renderRecords(key){const cfg=MODULES[key];const cols=[...cfg.fields.map(f=>f.name), 'id'];tableHead.innerHTML='<tr>'+cols.map(c=>`<th>${esc(cfg.fields.find(f=>f.name===c)?.label||c)}</th>`).join('')+'<th>إجراءات</th></tr>';const term=(document.getElementById('searchInput')?.value||'').trim().toLowerCase();const filtered=records.filter(r=>!term||Object.values(r).some(v=>String(v??'').toLowerCase().includes(term)));tableBody.innerHTML=filtered.length?filtered.map(r=>`<tr>${cols.map(c=>`<td>${esc(r[c])}</td>`).join('')}<td><button class="btn btn-outline btn-sm" data-edit="${esc(r.id)}">تعديل</button> <button class="btn btn-danger btn-sm" data-delete="${esc(r.id)}">حذف</button></td></tr>`).join(''):'<tr><td colspan="20">لا توجد سجلات مطابقة.</td></tr>';tableBody.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>{const r=records.find(x=>String(x.id)===b.dataset.edit);editRecordId=r?.id;renderForm(key,r||{});window.scrollTo({top:0,behavior:'smooth'});}));tableBody.querySelectorAll('[data-delete]').forEach(b=>b.addEventListener('click',()=>deleteRecord(key,b.dataset.delete)));}
     async function deleteRecord(key,id){if(!confirm('هل أنت متأكد من حذف هذا السجل؟ لا يمكن التراجع عن الحذف.'))return;try{const {error}=await sb.from(TABLES[key]).delete().eq('id',id);if(error)throw error;toast('تم الحذف');loadRecords(key);loadDashboard();}catch(e){toast('فشل الحذف: '+e.message);}}
     recordForm?.addEventListener('submit',async e=>{e.preventDefault();const key=recordForm.dataset.module;if(!key||!sb)return;const btn=document.getElementById('submitRecordBtn');btn.disabled=true;try{const data={};MODULES[key].fields.forEach(f=>{const el=recordForm.elements[f.name];if(el){let v=el.value;if(f.type==='number'&&v!=='')v=Number(v);if(f.type==='select'&&['is_active'].includes(f.name))v=v==='true';data[f.name]=v===''?null:v;}});let q=editRecordId?sb.from(TABLES[key]).update(data).eq('id',editRecordId):sb.from(TABLES[key]).insert(data);const {error}=await q;if(error)throw error;toast(editRecordId?'تم تحديث السجل':'تم حفظ السجل');editRecordId=null;renderForm(key);loadRecords(key);loadDashboard();}catch(err){showFormMsg('تعذر الحفظ: '+err.message+' — راجع أسماء الأعمدة وسياسات RLS.');}finally{btn.disabled=false;}});
-    document.getElementById('clearFormBtn')?.addEventListener('click',()=>{editRecordId=null;renderForm(activeModule);});document.getElementById('searchInput')?.addEventListener('input',()=>renderRecords(activeModule));document.getElementById('refreshBtn')?.addEventListener('click',()=>{
-      if(activeModule==='dashboard')loadDashboard();
-      else if(passportClientsSection && !passportClientsSection.classList.contains('hidden'))loadPassportClientsList();
-      else if(activeModule==='passports')loadPassportDashboardStats();
-      else loadRecords(activeModule);
-    });document.getElementById('mobileMenuBtn')?.addEventListener('click',()=>document.getElementById('sidebar')?.classList.toggle('open'));
+    document.getElementById('clearFormBtn')?.addEventListener('click',()=>{editRecordId=null;renderForm(activeModule);});document.getElementById('searchInput')?.addEventListener('input',()=>renderRecords(activeModule));document.getElementById('refreshBtn')?.addEventListener('click',()=>activeModule==='dashboard'?loadDashboard():loadRecords(activeModule));document.getElementById('mobileMenuBtn')?.addEventListener('click',()=>document.getElementById('sidebar')?.classList.toggle('open'));
     document.getElementById('exportCsvBtn')?.addEventListener('click',()=>{const key=activeModule;if(!records.length){toast('لا توجد بيانات للتصدير');return;}const cols=MODULES[key].fields.map(f=>f.name);const csv=[cols.join(','),...records.map(r=>cols.map(c=>'"'+String(r[c]??'').replace(/"/g,'""')+'"').join(','))].join('\r\n');const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=key+'-export.csv';a.click();URL.revokeObjectURL(a.href);});
     async function loadDashboard(){if(!sb)return;const grid=document.getElementById('kpiGrid'),summary=document.getElementById('servicesSummaryBody');grid.innerHTML='';summary.innerHTML='';const keys=Object.keys(TABLES);let counts={},financial=[];for(const key of keys){try{const {data,error}=await sb.from(TABLES[key]).select('*').limit(1000);if(error)throw error;counts[key]=(data||[]).length;const cfg=MODULES[key]||{};if(cfg.totalField){const total=(data||[]).reduce((a,r)=>a+Number(r[cfg.totalField]||0),0),paid=(data||[]).reduce((a,r)=>a+Number(r[cfg.paidField]||0),0);financial.push({key,total,paid,remaining:total-paid});}}catch(e){counts[key]=null;}}const cards=[['عدد العملاء',counts.customers],['عدد الحجوزات',counts.bookings],['عدد المقبوضات',counts.receipts],['عدد المصروفات',counts.expenses]];grid.innerHTML=cards.map(([l,v],i)=>`<div class="card"><div class="kpi-icon">${['▤','▣','▤','▤'][i]}</div><div class="card-title">${esc(l)}</div><div style="font-size:28px;font-weight:bold;color:var(--primary)">${v===null?'—':Number(v).toLocaleString('en-US')}</div><div class="kpi-note">إجمالي السجلات المسجلة</div></div>`).join('');summary.innerHTML=financial.map(x=>`<tr><td>${esc(MODULES[x.key]?.label||x.key)}</td><td>${counts[x.key]??'—'}</td><td>${x.total.toLocaleString()}</td><td>${x.paid.toLocaleString()}</td><td>${x.remaining.toLocaleString()}</td></tr>`).join('')||'<tr><td colspan="5">تعذر إظهار الملخص المالي أو لم تتوفر جداول ذات إجمالي ومدفوع معرفين.</td></tr>';}
     // دعم عرض رسالة تحديث كلمة المرور عند رجوع رابط Supabase.
@@ -1296,306 +1003,6 @@
     document.querySelectorAll('.primary-nav [data-module]').forEach(b=>b.addEventListener('click',()=>openModule(b.dataset.module)));
     const dateNode=document.getElementById('dashboardDate');
     if(dateNode) dateNode.textContent=new Intl.DateTimeFormat('ar-YE',{weekday:'long',year:'numeric',month:'long',day:'numeric'}).format(new Date());
-
-    // =====================================================================
-    // نظام متابعة الجوازات وصفحة العملاء المرتبطة بـ Supabase
-    // =====================================================================
-    const passportTrackingSection = document.getElementById("passportTrackingSection");
-    const passportClientsSection = document.getElementById("passportClientsSection");
-    let passportClientsCache = [];
-
-    function hideAllMainViews() {
-      dashboardSection?.classList.add("hidden");
-      moduleSection?.classList.add("hidden");
-      passportTrackingSection?.classList.add("hidden");
-      passportClientsSection?.classList.add("hidden");
-    }
-
-    function buildPassportNotification(clientName) {
-      const clean = String(clientName || "").trim();
-      return `عزيزي ${clean} يرجى مراجعة مكتب درب المشاعر للسفريات وخدمات الحج والعمرة لاستلام جوازك للتواصل 776640022.`;
-    }
-
-    function refreshPassportFormCalc() {
-      const nameEl = document.getElementById("pc_full_name");
-      const msgEl = document.getElementById("pc_notification_message");
-      if (nameEl && msgEl) {
-        msgEl.value = buildPassportNotification(nameEl.value);
-      }
-      const fee = parseFloat(document.getElementById("pc_agreed_fee")?.value || "0") || 0;
-      const paid = parseFloat(document.getElementById("pc_received_amount")?.value || "0") || 0;
-      const remEl = document.getElementById("pc_remaining_amount");
-      if (remEl) {
-        remEl.value = (fee - paid).toFixed(2);
-      }
-    }
-
-    function resetPassportClientForm() {
-      document.getElementById("passportClientForm")?.reset();
-      document.getElementById("pc_editing_client_number").value = "";
-      document.getElementById("pc_client_number").value = "";
-      document.getElementById("pc_registration_date").value = todayISO();
-      document.getElementById("pc_agreed_fee").value = "0";
-      document.getElementById("pc_received_amount").value = "0";
-      document.getElementById("pc_case_status").value = "لم يرسل";
-      document.getElementById("pc_delivery_status").value = "مجدولة";
-      document.getElementById("pc_responsible_employee").value = "عبدالرحمن";
-      const msgEl = document.getElementById("pcFormMessage");
-      if (msgEl) msgEl.className = "alert hidden";
-      const subBtn = document.getElementById("pcSubmitBtn");
-      if (subBtn) subBtn.textContent = "حفظ بيانات العميل";
-      refreshPassportFormCalc();
-    }
-
-    async function loadPassportDashboardStats() {
-      if (!sb) return;
-      const statKeys = [
-        "total_clients",
-        "child_new_passports",
-        "child_renew_passports",
-        "adult_renew_passports",
-        "remote_services",
-        "in_person_services",
-        "not_sent_cases",
-        "in_progress_cases",
-        "ready_for_pickup_passports",
-        "delivered_passports",
-        "total_remaining_amount"
-      ];
-      try {
-        const { data: stats, error } = await sb
-          .from("passport_dashboard_stats")
-          .select("*")
-          .single();
-        if (error) throw error;
-        statKeys.forEach((k) => {
-          const cell = document.getElementById("pstat-" + k);
-          if (cell) {
-            const val = stats?.[k] ?? 0;
-            cell.textContent = Number(val).toLocaleString("en-US");
-          }
-        });
-      } catch (err) {
-        console.error("passport_dashboard_stats error:", err);
-        toast("تعذر جلب إحصائيات نظام متابعة الجوازات: " + err.message);
-      }
-    }
-
-    async function openPassportTrackingPage() {
-      if (!sb) return;
-      activeModule = "passports";
-      renderNav();
-      hideAllMainViews();
-      passportTrackingSection?.classList.remove("hidden");
-      document.getElementById("pageTitle").textContent = "نظام متابعة الجوازات";
-      await loadPassportDashboardStats();
-    }
-
-    async function openPassportClientsPage() {
-      if (!sb) return;
-      activeModule = "passports";
-      renderNav();
-      hideAllMainViews();
-      passportClientsSection?.classList.remove("hidden");
-      document.getElementById("pageTitle").textContent = "العملاء — نظام متابعة الجوازات";
-      resetPassportClientForm();
-      await loadPassportClientsList();
-    }
-
-    async function loadPassportClientsList() {
-      if (!sb) return;
-      const tbody = document.getElementById("passportClientsTableBody");
-      const qVal = (document.getElementById("passportReceiptSearchInput")?.value || "").trim();
-      if (tbody) tbody.innerHTML = '<tr><td colspan="25">جارٍ تحميل البيانات…</td></tr>';
-
-      try {
-        let query = sb
-          .from("passport_clients")
-          .select("*")
-          .order("client_number", { ascending: false })
-          .limit(500);
-
-        if (qVal) {
-          query = query.or(
-            `receipt_number.ilike.%${qVal}%,full_name.ilike.%${qVal}%,phone.ilike.%${qVal}%`
-          );
-        }
-
-        const { data, error } = await query;
-        if (error) throw error;
-        passportClientsCache = data || [];
-        renderPassportClientsTable(passportClientsCache);
-      } catch (err) {
-        console.error("loadPassportClientsList error:", err);
-        if (tbody) {
-          tbody.innerHTML = `<tr><td colspan="25">تعذر قراءة جدول passport_clients: ${esc(err.message)}</td></tr>`;
-        }
-        toast("تعذر تحميل سجل عملاء الجوازات");
-      }
-    }
-
-    function renderPassportClientsTable(rows) {
-      const tbody = document.getElementById("passportClientsTableBody");
-      if (!tbody) return;
-      if (!rows.length) {
-        tbody.innerHTML = '<tr><td colspan="25">لا توجد سجلات مطابقة.</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = rows.map((r) => `
-        <tr>
-          <td><strong>${esc(r.client_number)}</strong></td>
-          <td><span class="passport-badge">${esc(r.receipt_number || "-")}</span></td>
-          <td>${esc(r.registration_date || "-")}</td>
-          <td><strong>${esc(r.full_name || "")}</strong></td>
-          <td>${esc(r.phone || "")}</td>
-          <td>${esc(r.alt_phone || "-")}</td>
-          <td>${esc(r.national_id || "-")}</td>
-          <td>${esc(r.current_passport_number || "-")}</td>
-          <td>${esc(r.service_type || "-")}</td>
-          <td>${esc(r.service_mode || "-")}</td>
-          <td>${esc(r.issue_location || "-")}</td>
-          <td>${esc(r.docs_received_date || "-")}</td>
-          <td>${esc(r.sent_date || "-")}</td>
-          <td>${esc(r.completed_date || "-")}</td>
-          <td>${esc(r.received_from_aden_date || "-")}</td>
-          <td>${esc(r.delivered_to_client_date || "-")}</td>
-          <td>${esc(r.agreed_fee ?? 0)}</td>
-          <td>${esc(r.received_amount ?? 0)}</td>
-          <td><strong>${esc(r.remaining_amount ?? 0)}</strong></td>
-          <td>${esc(r.case_status || "-")}</td>
-          <td>${esc(r.delivery_status || "-")}</td>
-          <td style="min-width:260px;white-space:normal;">${esc(r.notification_message || buildPassportNotification(r.full_name))}</td>
-          <td>${esc(r.responsible_employee || "عبدالرحمن")}</td>
-          <td>${esc(r.notes || "-")}</td>
-          <td class="actions-cell">
-            <button type="button" class="btn btn-outline btn-sm" data-pc-edit="${esc(r.client_number)}">تعديل</button>
-            <button type="button" class="btn btn-danger btn-sm" data-pc-del="${esc(r.client_number)}">حذف</button>
-          </td>
-        </tr>
-      `).join("");
-
-      tbody.querySelectorAll("[data-pc-edit]").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const num = Number(btn.getAttribute("data-pc-edit"));
-          const rec = passportClientsCache.find((x) => Number(x.client_number) === num);
-          if (!rec) return;
-          document.getElementById("pc_editing_client_number").value = rec.client_number;
-          document.getElementById("pc_client_number").value = rec.client_number;
-          document.getElementById("pc_receipt_number").value = rec.receipt_number || "";
-          document.getElementById("pc_registration_date").value = rec.registration_date || todayISO();
-          document.getElementById("pc_full_name").value = rec.full_name || "";
-          document.getElementById("pc_phone").value = rec.phone || "";
-          document.getElementById("pc_alt_phone").value = rec.alt_phone || "";
-          document.getElementById("pc_national_id").value = rec.national_id || "";
-          document.getElementById("pc_current_passport_number").value = rec.current_passport_number || "";
-          document.getElementById("pc_service_type").value = rec.service_type || "";
-          document.getElementById("pc_service_mode").value = rec.service_mode || "";
-          document.getElementById("pc_issue_location").value = rec.issue_location || "";
-          document.getElementById("pc_docs_received_date").value = rec.docs_received_date || "";
-          document.getElementById("pc_sent_date").value = rec.sent_date || "";
-          document.getElementById("pc_completed_date").value = rec.completed_date || "";
-          document.getElementById("pc_received_from_aden_date").value = rec.received_from_aden_date || "";
-          document.getElementById("pc_delivered_to_client_date").value = rec.delivered_to_client_date || "";
-          document.getElementById("pc_agreed_fee").value = rec.agreed_fee ?? 0;
-          document.getElementById("pc_received_amount").value = rec.received_amount ?? 0;
-          document.getElementById("pc_case_status").value = rec.case_status || "لم يرسل";
-          document.getElementById("pc_delivery_status").value = rec.delivery_status || "مجدولة";
-          document.getElementById("pc_responsible_employee").value = rec.responsible_employee || "عبدالرحمن";
-          document.getElementById("pc_notes").value = rec.notes || "";
-          document.getElementById("pcSubmitBtn").textContent = "تحديث بيانات العميل";
-          refreshPassportFormCalc();
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-      });
-
-      tbody.querySelectorAll("[data-pc-del]").forEach((btn) => {
-        btn.addEventListener("click", async () => {
-          const num = Number(btn.getAttribute("data-pc-del"));
-          if (!confirm("هل أنت متأكد من حذف سجل هذا العميل؟")) return;
-          try {
-            const { error } = await sb.from("passport_clients").delete().eq("client_number", num);
-            if (error) throw error;
-            toast("تم حذف السجل");
-            await loadPassportClientsList();
-            await loadDashboard();
-          } catch (err) {
-            toast("فشل الحذف: " + err.message);
-          }
-        });
-      });
-    }
-
-    document.getElementById("pc_full_name")?.addEventListener("input", refreshPassportFormCalc);
-    document.getElementById("pc_agreed_fee")?.addEventListener("input", refreshPassportFormCalc);
-    document.getElementById("pc_received_amount")?.addEventListener("input", refreshPassportFormCalc);
-    document.getElementById("pcClearBtn")?.addEventListener("click", resetPassportClientForm);
-    document.getElementById("goToPassportClientsBtn")?.addEventListener("click", openPassportClientsPage);
-    document.getElementById("backToPassportTrackingBtn")?.addEventListener("click", openPassportTrackingPage);
-    document.getElementById("backToDashboardFromPassportBtn")?.addEventListener("click", () => openModule("dashboard"));
-    document.getElementById("backToDashboardFromClientsBtn")?.addEventListener("click", () => openModule("dashboard"));
-    document.getElementById("passportSearchBtn")?.addEventListener("click", loadPassportClientsList);
-    document.getElementById("passportReceiptSearchInput")?.addEventListener("input", loadPassportClientsList);
-    document.getElementById("passportResetSearchBtn")?.addEventListener("click", () => {
-      const inp = document.getElementById("passportReceiptSearchInput");
-      if (inp) inp.value = "";
-      loadPassportClientsList();
-    });
-
-    document.getElementById("passportClientForm")?.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      if (!sb) return;
-      const msgEl = document.getElementById("pcFormMessage");
-      if (msgEl) msgEl.className = "alert hidden";
-
-      const editingNum = document.getElementById("pc_editing_client_number").value;
-      const payload = {
-        receipt_number: document.getElementById("pc_receipt_number").value.trim() || null,
-        registration_date: document.getElementById("pc_registration_date").value || todayISO(),
-        full_name: document.getElementById("pc_full_name").value.trim(),
-        phone: document.getElementById("pc_phone").value.trim(),
-        alt_phone: document.getElementById("pc_alt_phone").value.trim() || null,
-        national_id: document.getElementById("pc_national_id").value.trim() || null,
-        current_passport_number: document.getElementById("pc_current_passport_number").value.trim() || null,
-        service_type: document.getElementById("pc_service_type").value || null,
-        service_mode: document.getElementById("pc_service_mode").value || null,
-        issue_location: document.getElementById("pc_issue_location").value || null,
-        docs_received_date: document.getElementById("pc_docs_received_date").value || null,
-        sent_date: document.getElementById("pc_sent_date").value || null,
-        completed_date: document.getElementById("pc_completed_date").value || null,
-        received_from_aden_date: document.getElementById("pc_received_from_aden_date").value || null,
-        delivered_to_client_date: document.getElementById("pc_delivered_to_client_date").value || null,
-        agreed_fee: parseFloat(document.getElementById("pc_agreed_fee").value) || 0,
-        received_amount: parseFloat(document.getElementById("pc_received_amount").value) || 0,
-        case_status: document.getElementById("pc_case_status").value,
-        delivery_status: document.getElementById("pc_delivery_status").value,
-        responsible_employee: document.getElementById("pc_responsible_employee").value.trim() || "عبدالرحمن",
-        notes: document.getElementById("pc_notes").value.trim() || null
-      };
-
-      const subBtn = document.getElementById("pcSubmitBtn");
-      if (subBtn) subBtn.disabled = true;
-      try {
-        let q = editingNum
-          ? sb.from("passport_clients").update(payload).eq("client_number", Number(editingNum))
-          : sb.from("passport_clients").insert([payload]);
-        const { error } = await q;
-        if (error) throw error;
-        toast(editingNum ? "تم تحديث بيانات العميل" : "تم حفظ بيانات العميل");
-        resetPassportClientForm();
-        await loadPassportClientsList();
-        await loadDashboard();
-      } catch (err) {
-        console.error("save passport client error:", err);
-        if (msgEl) {
-          msgEl.textContent = "تعذر الحفظ: " + err.message;
-          msgEl.className = "alert alert-error";
-        }
-      } finally {
-        if (subBtn) subBtn.disabled = false;
-      }
-    });
-
     initializeAuth();
   </script>
 </body>

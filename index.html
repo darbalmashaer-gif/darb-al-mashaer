@@ -435,6 +435,93 @@
       .mobile-menu-btn { display: inline-flex; }
     }
   </style>
+
+<style id="darb-reference-redesign">
+:root{
+ --bg:#f5ead0;--surface:#fff;--surface-alt:#fffaf0;--primary:#09294e;--primary-hover:#061d38;
+ --primary-soft:#e7eef7;--accent:#e8ad22;--text:#102b4d;--muted:#6e7885;--border:#ead8ad;
+ --success:#14834a;--success-soft:#e8f6ed;--radius:15px;--shadow:0 5px 16px rgba(9,41,78,.14);
+}
+body{background:linear-gradient(135deg,#fff8e9 0%,#f3e4c1 100%);color:#102b4d;font-family:"Tahoma","Segoe UI",Arial,sans-serif}
+.app-shell,.layout,.main-layout{background:transparent}
+.sidebar{top:0!important;bottom:0!important;width:224px!important;background:linear-gradient(180deg,#09294e,#061a33)!important;
+ border-left:4px solid #e8ad22!important;padding:16px 11px!important;box-shadow:0 0 22px #061a3333!important;z-index:30}
+.sidebar-head{display:block!important;text-align:center;padding:14px 6px 20px!important;border-bottom:1px solid #ffffff28!important;margin-bottom:12px}
+.sidebar-head h2{font-size:21px!important;color:#f4c34e!important;font-weight:900}
+.sidebar-head span{color:#fff!important;font-size:10px!important}
+.nav-list{gap:5px!important}
+.nav-btn,.nav-item{background:transparent!important;color:#fff!important;border:1px solid transparent!important;border-radius:9px!important;
+ min-height:39px!important;padding:9px 10px!important;font-size:12px!important;font-weight:700!important;box-shadow:none!important;text-align:right}
+.nav-btn:hover,.nav-item:hover{background:#ffffff17!important;border-color:#e8ad2266!important}
+.nav-btn.active,.nav-item.active{background:linear-gradient(90deg,#f4c34e,#d99a13)!important;color:#09294e!important;border-color:#ffe39a!important}
+.sidebar-foot{background:#ffffff12!important;border:1px solid #ffffff25!important;color:#fff!important}
+.sidebar-foot .user-email{color:#fff!important}
+.main-area{margin-right:224px!important;min-height:100vh!important}
+.topbar{position:relative!important;min-height:62px!important;padding:10px 22px!important;background:linear-gradient(105deg,#061a33,#0c3765)!important;
+ border-bottom:3px solid #e8ad22!important;color:#fff!important;display:flex!important;align-items:center!important;justify-content:space-between!important}
+.page-title{color:#fff!important;font-size:18px!important;font-weight:900!important}
+.topbar .btn{background:#fff!important;color:#09294e!important;border:1px solid #e8ad22!important;font-weight:800}
+.content{max-width:none!important;padding:12px 15px 24px!important}
+#dashboardSection{display:block}
+.dashboard-meta{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid #e6d4a8;border-radius:12px;
+ padding:9px 15px;margin-bottom:10px;box-shadow:var(--shadow)}
+.dashboard-meta strong{font-size:21px!important;color:#09294e!important}
+.dashboard-meta span{font-weight:700;color:#687486}
+.welcome-banner{position:relative;overflow:hidden;text-align:center!important;padding:24px 18px!important;margin:0 0 12px!important;
+ border:1px solid #e7c66e!important;border-radius:16px!important;color:#09294e!important;
+ background:radial-gradient(ellipse at 82% 15%,#fff 0,transparent 38%),linear-gradient(110deg,#dcecff 0%,#fff7e5 50%,#f5d58d 100%)!important;
+ font-size:15px!important;font-weight:800!important;box-shadow:var(--shadow)}
+.welcome-banner:before{content:"درب المشاعر للسفريات وخدمات الحج والعمرة";display:block;font-size:clamp(21px,3vw,32px);font-weight:900;color:#09294e;margin-bottom:5px}
+.welcome-banner:after{content:"ثقة .. راحة .. امتياز";display:block;width:max-content;max-width:100%;margin:10px auto 0;padding:5px 24px;border-radius:30px;
+ background:linear-gradient(90deg,#b77a0b,#f4c34e,#b77a0b);color:#fff;font-size:13px;font-weight:900}
+.kpi-grid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:10px!important;margin:0 0 12px!important}
+.kpi-grid>.card,.kpi-card{position:relative;min-height:96px!important;padding:14px 15px!important;border:1px solid #e8d8b3!important;
+ border-radius:13px!important;box-shadow:var(--shadow)!important;background:#fff!important;text-align:center!important}
+.kpi-grid>.card .card-title{font-size:13px!important;font-weight:800!important;color:#09294e!important}
+.kpi-grid>.card div[style*="font-size:28px"]{font-size:25px!important;color:#111!important;font-weight:900!important}
+.kpi-icon{position:absolute!important;left:12px!important;top:12px!important;width:35px!important;height:35px!important;border-radius:50%!important;
+ display:grid!important;place-items:center!important;background:linear-gradient(145deg,#1d78c9,#07509a)!important;color:#fff!important;font-size:18px!important}
+.card{background:#fff!important;border:1px solid #e8d8b3!important;border-radius:14px!important;box-shadow:var(--shadow)!important;margin-bottom:12px!important}
+.card-head{background:linear-gradient(90deg,#09294e,#164d7c)!important;color:#fff!important;padding:10px 14px!important;border-radius:13px 13px 0 0!important}
+.card-title{color:inherit!important;font-weight:900!important}
+.table-wrap{overflow:auto}
+table{min-width:650px;border-collapse:separate!important;border-spacing:0!important}
+thead th{background:#edf3fa!important;color:#09294e!important;font-weight:900!important;border-bottom:2px solid #e8ad22!important}
+tbody td{border-bottom:1px solid #edf0f4!important}
+tbody tr:hover{background:#fff8e8!important}
+.btn-primary{background:linear-gradient(90deg,#0b315b,#155b91)!important;border-color:#e8ad22!important;color:#fff!important}
+.btn-outline{border-color:#d7bd7a!important}
+input,select,textarea{border:1px solid #d9c99f!important;border-radius:9px!important}
+#referenceCharts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:12px 0}
+.ref-panel{background:#fff;border:1px solid #e8d8b3;border-radius:14px;box-shadow:var(--shadow);overflow:hidden;min-width:0}
+.ref-panel h3{background:linear-gradient(90deg,#09294e,#164d7c);color:#fff;padding:10px 12px;font-size:14px;text-align:center}
+.ref-panel .panel-body{padding:13px;min-height:160px}
+.ref-bars{display:flex;align-items:end;gap:12px;height:118px;border-bottom:1px solid #d9e0e8;padding:0 8px}
+.ref-bar{flex:1;min-width:20px;border-radius:6px 6px 0 0;background:linear-gradient(180deg,#267fc6,#09294e);position:relative}
+.ref-bar.gold{background:linear-gradient(180deg,#ffd05a,#d9950c)}
+.ref-bar span{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font-size:10px;white-space:nowrap;color:#34445a}
+.ref-legend{display:flex;flex-wrap:wrap;gap:7px 12px;margin-top:27px;font-size:11px;font-weight:700}
+.ref-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-left:4px;background:#1976c8}
+.ref-donut{width:116px;height:116px;border-radius:50%;margin:4px auto;background:conic-gradient(#0b4c89 0 34%,#f0a914 34% 62%,#1875c8 62% 80%,#39a45b 80% 92%,#aaa 92% 100%);position:relative}
+.ref-donut:after{content:"الخدمات";position:absolute;inset:29px;border-radius:50%;background:white;display:grid;place-items:center;font-weight:900;color:#09294e;font-size:12px}
+.ref-line{display:flex;align-items:end;justify-content:space-between;height:120px;padding:10px 8px 0;border-bottom:1px solid #d9e0e8}
+.ref-line span{display:block;width:8px;height:var(--h);border-radius:8px 8px 0 0;background:#e6a316;position:relative}
+.ref-line span:before{content:"";position:absolute;top:-5px;left:-3px;width:14px;height:14px;border-radius:50%;background:#e6a316;border:2px solid #fff;box-shadow:0 1px 4px #555}
+.quick-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.quick-actions button{flex:1 1 130px;min-height:72px;background:#fff;border:1px solid #e4d2a5;border-radius:12px;box-shadow:var(--shadow);color:#09294e;font-weight:900;cursor:pointer;padding:9px}
+.quick-actions button b{display:block;font-size:23px;color:#e2a21a}
+.footer-strip{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;background:#061d38;color:#fff;border-top:3px solid #e8ad22;padding:12px 18px;font-size:12px;font-weight:700}
+@media(max-width:1000px){.main-area{margin-right:190px!important}.sidebar{width:190px!important}#referenceCharts{grid-template-columns:1fr 1fr}.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:650px){.sidebar{transform:translateX(100%);width:260px!important}.sidebar.open{transform:translateX(0)}.main-area{margin-right:0!important}.topbar{padding:9px 12px!important}.content{padding:8px!important}.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}#referenceCharts{grid-template-columns:1fr}.dashboard-meta strong{font-size:17px!important}}
+</style>
+\n<style id="darb-logo-placement">
+      .darb-brand-logo{display:block;width:min(100%,172px);height:125px;object-fit:contain;margin:0 auto 9px;filter:drop-shadow(0 3px 5px rgba(0,0,0,.18))}
+      .sidebar-head{text-align:center!important}
+      .sidebar-head h2{margin:2px 0 4px!important}
+      .welcome-banner{position:relative;padding-right:150px!important;min-height:115px;display:flex;flex-direction:column;justify-content:center}
+      .welcome-banner:before{content:"";position:absolute;right:12px;top:50%;transform:translateY(-50%);width:128px;height:105px;background:url("assets/darb-logo.png") center/contain no-repeat}
+      @media(max-width:650px){.darb-brand-logo{width:145px;height:105px}.welcome-banner{padding:115px 12px 14px!important}.welcome-banner:before{right:50%;top:5px;transform:translateX(50%);width:105px;height:100px}}
+    </style>
 </head>
 <body>
 
@@ -485,8 +572,9 @@
     </nav>
     <aside id="sidebar" class="sidebar">
       <div class="sidebar-head">
+        <img class="darb-brand-logo" src="assets/darb-logo.png" alt="شعار درب المشاعر">
         <h2>درب المشاعر</h2>
-        <span>نظام الإدارة والمحاسبة السحابي</span>
+        <span>للسفريات وخدمات الحج والعمرة</span>
       </div>
       <nav id="navList" class="nav-list"></nav>
       <div class="sidebar-foot">
@@ -501,16 +589,32 @@
           <button id="mobileMenuBtn" class="mobile-menu-btn">☰</button>
           <h1 id="pageTitle" class="page-title">لوحة التحكم</h1>
         </div>
-        <div style="display:flex; gap:8px;">
-          <button id="refreshBtn" class="btn btn-outline btn-sm">تحديث البيانات</button>
+        <div class="topbar-tools" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <span class="topbar-user">مدير النظام</span>
+          <label class="topbar-search" style="display:flex;align-items:center;gap:6px;background:#fff;border-radius:30px;padding:7px 13px;color:#09294e">
+            <span>⌕</span><input id="globalSearchVisual" type="search" placeholder="البحث باسم العميل أو رقم الهاتف ..." style="border:0!important;outline:0;width:min(28vw,300px);padding:2px;background:transparent">
+          </label>
+          <button id="refreshBtn" class="btn btn-outline btn-sm">↻ تحديث البيانات</button>
         </div>
       </header>
 
       <main class="content">
         <!-- قسم لوحة التحكم -->
         <section id="dashboardSection">
-          <div class="dashboard-meta"><span id="dashboardDate"></span><strong>لوحة التحكم</strong></div>
+          <div class="dashboard-meta"><span id="dashboardDate"></span><strong>لوحة التحكم العامة</strong></div>
           <div class="kpi-grid" id="kpiGrid"></div>
+          <div id="referenceCharts">
+            <div class="ref-panel"><h3>المؤشرات المالية</h3><div class="panel-body"><div class="ref-bars" id="financeBars"><div class="ref-bar" style="height:72%"><span>المقبوضات</span></div><div class="ref-bar gold" style="height:48%"><span>المصروفات</span></div><div class="ref-bar" style="height:62%"><span>الرصيد</span></div></div><div class="ref-legend">تعرض القيم المالية التفصيلية في ملخص الخدمات أدناه</div></div></div>
+            <div class="ref-panel"><h3>توزيع العملاء حسب الخدمات</h3><div class="panel-body"><div class="ref-donut"></div><div class="ref-legend"><span><i class="ref-dot"></i>الحج والعمرة</span><span><i class="ref-dot" style="background:#f0a914"></i>النقل</span><span><i class="ref-dot" style="background:#39a45b"></i>التذاكر</span></div></div></div>
+            <div class="ref-panel"><h3>نمو العملاء الشهري</h3><div class="panel-body"><div class="ref-line"><span style="--h:25%"></span><span style="--h:38%"></span><span style="--h:48%"></span><span style="--h:62%"></span><span style="--h:78%"></span><span style="--h:94%"></span></div><div class="ref-legend">مؤشر بصري — لا يعرض أرقاماً تاريخية غير متوفرة</div></div></div>
+          </div>
+          <div class="quick-actions" id="quickActions">
+            <button type="button" data-quick="receipts"><b>＋</b>إضافة سند قبض</button>
+            <button type="button" data-quick="expenses"><b>⇢</b>إضافة سند صرف</button>
+            <button type="button" data-quick="bookings"><b>✈</b>إصدار تذكرة</button>
+            <button type="button" data-quick="bookings"><b>◈</b>حجز عمرة</button>
+            <button type="button" data-quick="customers"><b>♙</b>إضافة عميل جديد</button>
+          </div>
           <div class="welcome-banner">مرحباً بك في نظام درب المشاعر - إدارة الحركة المالية ومتابعة المقبوضات والمصروفات والتقارير</div>
 
           <div class="card">
@@ -585,10 +689,12 @@
               </table>
             </div>
           </div>
+          <div id="passportWorkspace" class="hidden"></div>
         </section>
       </main>
     </div>
   </div>
+  <div class="footer-strip"><span>🟢 حالة النظام: يعمل بشكل طبيعي</span><span>النسخة: 1.0.0</span><span>درب المشاعر .. رحلتك تبدأ من مكان تثق به</span></div>
 
   <!-- نافذة تعديل السجل -->
   <div id="editModal" class="modal-backdrop hidden">
@@ -709,33 +815,17 @@
           { name: "notes", label: "ملاحظات", type: "textarea", full: true }
         ]
       },
+      // تعريف قسم الجوازات غير مكتمل في الملف الأصلي؛ نغلق التعريف
+      // دون افتراض أسماء جداول أو حقول غير موجودة في المصدر.
       passports: {
         label: "الجوازات",
         fields: [
           { name: "customer_name", label: "اسم صاحب الجواز", type: "text", required: true },
           { name: "passport_number", label: "رقم الجواز", type: "text", required: true },
           { name: "nationality", label: "الجنسية", type: "text" },
-          { name: "service_type", label: "انواع الخدمة", type: "select", options: ["عـــــــــادي", "مــســتــعـجـل"], default: "عـــــــــادي" },
-          { name: "service_method", label: "طريقة الخدمة", type: "select", options: ["عن بُــعــد", "بحضور"], default: "عن بُــعــد" },
           { name: "issue_date", label: "تاريخ الإصدار", type: "date" },
           { name: "expiry_date", label: "تاريخ الانتهاء", type: "date" },
           { name: "status", label: "الحالة", type: "text" },
-          { name: "notes", label: "ملاحظات", type: "textarea", full: true }
-        ]
-      },
-      trip_tracking: {
-        label: "متابعة الرحلات",
-        fields: [
-          { name: "trip_number", label: "رقم الرحلة", type: "text", required: true },
-          { name: "departure_date", label: "تاريخ الذهاب", type: "date" },
-          { name: "passport_issue_place", label: "مكان اصدار الجواز", type: "text" },
-          { name: "planned_return_date", label: "تاريخ العودة المخطط", type: "date" },
-          { name: "actual_return_date", label: "تاريخ العودة الفعلي", type: "date" },
-          { name: "driver_name", label: "اسم السائق", type: "text" },
-          { name: "phone", label: "رقم الهاتف", type: "text" },
-          { name: "car_number", label: "رقم السيارة", type: "text" },
-          { name: "clients_count", label: "عدد العملاء", type: "number", default: 0 },
-          { name: "trip_status", label: "حالة الرحلة", type: "select", options: ["مجدولة", "في الطريق", "عادت من الرحلة", "مكتملة", "ملغاة"], default: "مجدولة" },
           { name: "notes", label: "ملاحظات", type: "textarea", full: true }
         ]
       },
@@ -976,19 +1066,73 @@
 
 
     // إدارة الواجهة وتشغيل وحدات CRUD على الجداول الموجودة فقط (لا ينشئ جداول أو migrations).
-    const TABLES = { customers:"customers", employees:"employees", receipts:"receipts", expenses:"expenses", collective_transport:"collective_transport", private_cars:"private_cars", passports:"passports", trip_tracking:"trip_tracking", branches:"branches", cashboxes:"cashboxes", bookings:"bookings" };
-    const MODULE_ORDER = ["dashboard","customers","bookings","passports","trip_tracking","collective_transport","private_cars","receipts","expenses","cashboxes","branches","employees"];
+    const TABLES = { customers:"customers", employees:"employees", receipts:"receipts", expenses:"expenses", collective_transport:"collective_transport", private_cars:"private_cars", passports:"passport_clients", branches:"branches", cashboxes:"cashboxes", bookings:"bookings" };
+    const MODULE_ORDER = ["dashboard","customers","bookings","passports","collective_transport","private_cars","receipts","expenses","cashboxes","branches","employees"];
     const MODULE_LABELS = {dashboard:"لوحة التحكم", ...Object.fromEntries(Object.entries(MODULES).map(([k,v])=>[k,v.label]))};
     let activeModule = "dashboard", records = [], editRecordId = null, dashboardLoaded = false;
     const navList = document.getElementById("navList"), dashboardSection = document.getElementById("dashboardSection"), moduleSection = document.getElementById("moduleSection");
     const recordForm = document.getElementById("recordForm"), formFields = document.getElementById("formFields"), tableHead = document.getElementById("tableHead"), tableBody = document.getElementById("tableBody");
     function initializeBusinessUI(){ if(!sb)return; renderNav(); loadDashboard(); }
-    function renderNav(){ if(!navList)return; const icons={dashboard:"⌂",collective_transport:"🚌",private_cars:"🚘",passports:"▣",trip_tracking:"🚐",bookings:"✈",customers:"♙",receipts:"▤",expenses:"▤",cashboxes:"♙",employees:"♟",branches:"⌂"}; navList.innerHTML = MODULE_ORDER.filter(k=>k!=="dashboard").map(k=>`<button class="nav-item ${activeModule===k?'active':''}" data-module="${k}" type="button"><span>${esc(MODULE_LABELS[k]||k)}</span><span aria-hidden="true">${icons[k]||"▣"}</span></button>`).join(''); navList.querySelectorAll('[data-module]').forEach(b=>b.addEventListener('click',()=>openModule(b.dataset.module))); }
+    function renderNav(){ if(!navList)return; const icons={dashboard:"⌂",collective_transport:"🚌",private_cars:"🚘",passports:"▣",bookings:"✈",customers:"♙",receipts:"▤",expenses:"▤",cashboxes:"♙",employees:"♟",branches:"⌂"}; navList.innerHTML = MODULE_ORDER.filter(k=>k!=="dashboard").map(k=>`<button class="nav-item ${activeModule===k?'active':''}" data-module="${k}" type="button"><span>${esc(MODULE_LABELS[k]||k)}</span><span aria-hidden="true">${icons[k]||"▣"}</span></button>`).join(''); navList.querySelectorAll('[data-module]').forEach(b=>b.addEventListener('click',()=>openModule(b.dataset.module))); }
     function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
     function toast(msg){const t=document.getElementById('toast');if(t){t.textContent=msg;t.classList.remove('hidden');setTimeout(()=>t.classList.add('hidden'),3500);}}
-    function openModule(key){activeModule=key;renderNav();document.getElementById('pageTitle').textContent=MODULE_LABELS[key]||key;dashboardSection.classList.toggle('hidden',key!=='dashboard');moduleSection.classList.toggle('hidden',key==='dashboard');if(key!=='dashboard'){renderForm(key);loadRecords(key);}else loadDashboard();}
+    function openModule(key){activeModule=key;renderNav();document.getElementById('pageTitle').textContent=MODULE_LABELS[key]||key;dashboardSection.classList.toggle('hidden',key!=='dashboard');moduleSection.classList.toggle('hidden',key==='dashboard');if(key==='passports'){moduleSection.querySelectorAll(':scope > .card').forEach(el=>el.classList.add('hidden'));document.getElementById('passportWorkspace')?.classList.remove('hidden');renderPassportWorkspace();loadPassportData();return;}document.getElementById('passportWorkspace')?.classList.add('hidden');moduleSection.querySelectorAll(':scope > .card').forEach(el=>el.classList.remove('hidden'));if(key!=='dashboard'){renderForm(key);loadRecords(key);}else loadDashboard();}
     function renderForm(key,record={}){const cfg=MODULES[key];if(!cfg)return;document.getElementById('formCardTitle').textContent=record.id?'تعديل سجل':'إضافة سجل جديد';document.getElementById('tableCardTitle').textContent='السجلات — '+cfg.label;formFields.innerHTML=cfg.fields.map(f=>fieldHtml(f,record[f.name])).join('');recordForm.dataset.module=key;document.getElementById('formMessage').className='alert hidden';}
-    function fieldHtml(f,val){let v=val??f.default??'';const req=f.required?'required':'';const cls=f.full?' style="grid-column:1/-1"':'';if(f.type==='textarea')return `<div class="form-group"${cls}><label>${esc(f.label)}</label><textarea name="${esc(f.name)}" ${req}>${esc(v)}</textarea></div>`;if(f.type==='select')return `<div class="form-group"${cls}><label>${esc(f.label)}</label><select name="${esc(f.name)}" ${req}><option value="">-- اختر ${esc(f.label)} --</option>${(f.options||[]).map(o=>`<option value="${esc(o)}" ${String(v).trim()===String(o).trim()?'selected':''}>${esc(f.labels?.[o]||o)}</option>`).join('')}</select></div>`;return `<div class="form-group"${cls}><label>${esc(f.label)}</label><input name="${esc(f.name)}" type="${esc(f.type)}" ${f.step?`step="${esc(f.step)}"`:''} value="${esc(v)}" ${req}></div>`;}
+    function fieldHtml(f,val){let v=val??f.default??'';const req=f.required?'required':'';const cls=f.full?' style="grid-column:1/-1"':'';if(f.type==='textarea')return `<div class="form-group"${cls}><label>${esc(f.label)}</label><textarea name="${esc(f.name)}" ${req}>${esc(v)}</textarea></div>`;if(f.type==='select')return `<div class="form-group"${cls}><label>${esc(f.label)}</label><select name="${esc(f.name)}" ${req}>${(f.options||[]).map(o=>`<option value="${esc(o)}" ${String(v)===String(o)?'selected':''}>${esc(f.labels?.[o]||o)}</option>`).join('')}</select></div>`;return `<div class="form-group"${cls}><label>${esc(f.label)}</label><input name="${esc(f.name)}" type="${esc(f.type)}" ${f.step?`step="${esc(f.step)}"`:''} value="${esc(v)}" ${req}></div>`;}
+    // قسم الجوازات المخصص: يعتمد حصراً على البنية الفعلية لجدول passport_clients.
+    const PASSPORT_TABLE = 'passport_clients';
+    const PASSPORT_FIELDS = [
+      {name:'client_number',label:'رقم العميل',type:'number',required:true},
+      {name:'receipt_number',label:'رقم السند',type:'text'},
+      {name:'registration_date',label:'تاريخ التسجيل',type:'date',required:true,default:todayISO()},
+      {name:'full_name',label:'اسم العميل',type:'text',required:true},
+      {name:'phone',label:'رقم الهاتف',type:'text',required:true},
+      {name:'alt_phone',label:'رقم هاتف بديل',type:'text'},
+      {name:'national_id',label:'رقم الهوية',type:'text'},
+      {name:'current_passport_number',label:'رقم الجواز الحالي',type:'text'},
+      {name:'service_type',label:'نوع الخدمة',type:'select',options:['إصدار جواز','تجديد جواز','بدل فاقد','بدل تالف','أخرى']},
+      {name:'service_mode',label:'طريقة الخدمة',type:'select',options:['عادي','مستعجل']},
+      {name:'issue_location',label:'مكان الإصدار',type:'text'},
+      {name:'docs_received_date',label:'تاريخ استلام الوثائق',type:'date'},
+      {name:'sent_date',label:'تاريخ الإرسال',type:'date'},
+      {name:'completed_date',label:'تاريخ الإنجاز',type:'date'},
+      {name:'received_from_aden_date',label:'تاريخ الاستلام من عدن',type:'date'},
+      {name:'delivered_to_client_date',label:'تاريخ التسليم للعميل',type:'date'},
+      {name:'agreed_fee',label:'الرسوم المتفق عليها',type:'number',step:'0.01',default:0},
+      {name:'received_amount',label:'المبلغ المستلم',type:'number',step:'0.01',default:0},
+      {name:'case_status',label:'حالة المعاملة',type:'select',options:['لم يرسل','تم استلام الوثائق','تم الإرسال','قيد الإجراء','مكتمل','متوقف','ملغي'],default:'لم يرسل'},
+      {name:'delivery_status',label:'حالة التسليم',type:'select',options:['مجدولة','جاهز للاستلام','تم التسليم'],default:'مجدولة'},
+      {name:'responsible_employee',label:'الموظف المسؤول',type:'text',required:true,default:'عبدالرحمن'},
+      {name:'trip_id',label:'ربط برحلة (اختياري)',type:'select',options:[]},
+      {name:'notes',label:'ملاحظات',type:'textarea',full:true}
+    ];
+    let passportRows=[], passportTrips=[], passportEditing=null, passportView='dashboard';
+    const passportMoney=n=>Number(n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    function passportFieldHtml(f,row={}){let v=row[f.name]??f.default??'';if(f.name==='trip_id'&&v===null)v='';const req=f.required?'required':'';const style=f.full?' style="grid-column:1/-1"':'';if(f.type==='textarea')return `<div class="form-group"${style}><label>${esc(f.label)}</label><textarea name="${esc(f.name)}" ${req}>${esc(v)}</textarea></div>`;if(f.type==='select'){let opts=f.name==='trip_id'?[{value:'',label:'بدون ربط'} ,...passportTrips.map(t=>({value:String(t.id),label:`رحلة #${t.id}`}))]:(f.options||[]).map(x=>({value:x,label:x}));return `<div class="form-group"${style}><label>${esc(f.label)}</label><select name="${esc(f.name)}" ${req}>${opts.map(o=>`<option value="${esc(o.value)}" ${String(v)===String(o.value)?'selected':''}>${esc(o.label)}</option>`).join('')}</select></div>`;}return `<div class="form-group"${style}><label>${esc(f.label)}</label><input name="${esc(f.name)}" type="${esc(f.type)}" ${f.step?`step="${f.step}"`:''} value="${esc(v)}" ${req}></div>`;}
+    function renderPassportWorkspace(){const w=document.getElementById('passportWorkspace');if(!w)return;w.innerHTML=`<style>
+      #passportWorkspace .pw-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}#passportWorkspace .pw-tab{border:1px solid var(--border,#ddd);background:var(--card,#fff);padding:10px 14px;border-radius:9px;cursor:pointer;color:inherit}#passportWorkspace .pw-tab.active{background:var(--primary);color:#fff}#passportWorkspace .pw-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin-bottom:16px}#passportWorkspace .pw-kpi{background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:12px;padding:15px}#passportWorkspace .pw-kpi strong{display:block;font-size:23px;color:var(--primary);margin-top:7px}#passportWorkspace .pw-tools{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}#passportWorkspace .pw-tools input,#passportWorkspace .pw-tools select{min-width:160px;flex:1;padding:10px;border:1px solid var(--border,#ddd);border-radius:8px}#passportWorkspace .pw-table{min-width:950px}#passportWorkspace .pw-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}#passportWorkspace .pw-actions{display:flex;gap:6px;flex-wrap:wrap}#passportWorkspace .pw-muted{color:var(--muted,#777);font-size:13px}@media print{#passportWorkspace .pw-tabs,#passportWorkspace .pw-tools,#passportWorkspace .pw-actions,#passportWorkspace .btn{display:none!important}}
+      </style>
+      <div class="pw-tabs">
+        ${[['dashboard','لوحة التحكم'],['list','متابعة الجوازات'],['form','إدخال البيانات'],['trips','متابعة الرحلات'],['clients','صفحة العملاء']].map(([k,l])=>`<button type="button" class="pw-tab ${passportView===k?'active':''}" data-pw-view="${k}">${l}</button>`).join('')}
+      </div><div id="passportViewContent"></div>`;
+      w.querySelectorAll('[data-pw-view]').forEach(b=>b.addEventListener('click',()=>{passportView=b.dataset.pwView;renderPassportWorkspace();renderPassportView();}));renderPassportView();}
+    async function loadPassportData(){const w=document.getElementById('passportWorkspace');if(!w)return;const content=document.getElementById('passportViewContent');if(content)content.innerHTML='<div class="card">جار تحميل بيانات الجوازات…</div>';try{const [a,b]=await Promise.all([sb.from(PASSPORT_TABLE).select('*').order('registration_date',{ascending:false}).limit(2000),sb.from('passport_trips').select('*').limit(500)]);if(a.error)throw a.error;passportRows=a.data||[];passportTrips=b.error?[]:(b.data||[]);renderPassportView();}catch(e){if(content)content.innerHTML=`<div class="card alert alert-error">تعذر تحميل بيانات الجوازات: ${esc(e.message)}</div>`;}}
+    function renderPassportView(){const c=document.getElementById('passportViewContent');if(!c)return;const total=passportRows.length,done=passportRows.filter(r=>r.case_status==='مكتمل').length,ready=passportRows.filter(r=>r.delivery_status==='جاهز للاستلام').length,delivered=passportRows.filter(r=>r.delivery_status==='تم التسليم').length,fees=passportRows.reduce((a,r)=>a+Number(r.agreed_fee||0),0),paid=passportRows.reduce((a,r)=>a+Number(r.received_amount||0),0),remaining=passportRows.reduce((a,r)=>a+Number(r.remaining_amount??(Number(r.agreed_fee||0)-Number(r.received_amount||0))),0);
+      if(passportView==='dashboard'){c.innerHTML=`<div class="pw-kpis">${[['إجمالي المعاملات',total],['المعاملات المكتملة',done],['جاهز للاستلام',ready],['تم التسليم',delivered],['إجمالي الرسوم',passportMoney(fees)],['إجمالي المستلم',passportMoney(paid)],['إجمالي المتبقي',passportMoney(remaining)]].map(([l,v])=>`<div class="pw-kpi"><span>${l}</span><strong>${v}</strong></div>`).join('')}</div><div class="card"><div class="card-title">ملخص حالات المعاملات</div><div class="table-wrap"><table><thead><tr><th>الحالة</th><th>العدد</th></tr></thead><tbody>${['لم يرسل','تم استلام الوثائق','تم الإرسال','قيد الإجراء','مكتمل','متوقف','ملغي'].map(st=>`<tr><td>${st}</td><td>${passportRows.filter(r=>r.case_status===st).length}</td></tr>`).join('')}</tbody></table></div></div>`;return;}
+      if(passportView==='form'){renderPassportForm(c,passportEditing||{});return;}
+      if(passportView==='trips'){renderPassportTrips(c);return;}
+      if(passportView==='clients'){renderPassportClients(c);return;}
+      renderPassportList(c);
+    }
+    function renderPassportForm(c,row){c.innerHTML=`<div class="card"><div class="card-head"><div class="card-title">${passportEditing?'تعديل معاملة جواز':'تسجيل معاملة جواز جديدة'}</div><span class="pw-muted">البيانات تحفظ في جدول passport_clients</span></div><form id="passportForm"><div class="pw-form">${PASSPORT_FIELDS.map(f=>passportFieldHtml(f,row)).join('')}</div><div class="pw-tools"><button class="btn btn-primary" type="submit">${passportEditing?'حفظ التعديلات':'حفظ المعاملة'}</button><button class="btn btn-outline" type="button" id="pwClear">تفريغ الحقول</button><button class="btn btn-outline" type="button" id="pwCancel">إلغاء</button></div><div id="pwMessage" class="alert hidden"></div></form></div>`;
+      const form=c.querySelector('#passportForm');form.addEventListener('submit',async e=>{e.preventDefault();const btn=form.querySelector('[type=submit]');btn.disabled=true;try{const data={};for(const f of PASSPORT_FIELDS){const el=form.elements[f.name];if(!el)continue;let v=el.value;if(f.type==='number')v=v===''?null:Number(v);if(f.name==='trip_id')v=v===''?null:Number(v);data[f.name]=v===''?null:v;}data.agreed_fee=Number(data.agreed_fee||0);data.received_amount=Number(data.received_amount||0);data.remaining_amount=data.agreed_fee-data.received_amount;data.updated_at=new Date().toISOString();if(!passportEditing){data.created_at=new Date().toISOString();}if(data.delivery_status==='جاهز للاستلام'&&!data.notification_message){data.notification_message=`عميلنا العزيز ${data.full_name}، نحيطكم علماً بأن معاملتكم أصبحت جاهزة للاستلام. للاستفسار يرجى التواصل مع درب المشاعر.`;}const q=passportEditing?sb.from(PASSPORT_TABLE).update(data).eq('client_number',passportEditing.client_number):sb.from(PASSPORT_TABLE).insert(data);const {error}=await q;if(error)throw error;toast(passportEditing?'تم تحديث معاملة الجواز':'تم حفظ معاملة الجواز');passportEditing=null;passportView='list';renderPassportWorkspace();await loadPassportData();}catch(err){const m=form.querySelector('#pwMessage');m.textContent='تعذر الحفظ: '+err.message;m.className='alert alert-error';}finally{btn.disabled=false;}});
+      c.querySelector('#pwClear').addEventListener('click',()=>{passportEditing=null;renderPassportForm(c,{});});c.querySelector('#pwCancel').addEventListener('click',()=>{passportEditing=null;passportView='list';renderPassportWorkspace();});}
+    function renderPassportList(c){c.innerHTML=`<div class="card"><div class="card-head"><div class="card-title">متابعة معاملات الجوازات</div><button class="btn btn-primary btn-sm" id="pwNew">+ معاملة جديدة</button></div><div class="pw-tools"><input id="pwSearch" placeholder="بحث بالاسم أو الهاتف أو السند أو الجواز أو الهوية أو رقم العميل"><select id="pwStatus"><option value="">كل حالات المعاملة</option>${['لم يرسل','تم استلام الوثائق','تم الإرسال','قيد الإجراء','مكتمل','متوقف','ملغي'].map(x=>`<option>${x}</option>`).join('')}</select><select id="pwDelivery"><option value="">كل حالات التسليم</option><option>مجدولة</option><option>جاهز للاستلام</option><option>تم التسليم</option></select><button class="btn btn-outline btn-sm" id="pwExport">تصدير CSV</button><button class="btn btn-outline btn-sm" id="pwPrint">طباعة</button></div><div class="table-wrap"><table class="pw-table"><thead><tr><th>رقم العميل</th><th>رقم السند</th><th>الاسم</th><th>الهاتف</th><th>رقم الجواز</th><th>نوع الخدمة</th><th>حالة المعاملة</th><th>حالة التسليم</th><th>المتفق عليه</th><th>المستلم</th><th>المتبقي</th><th>الموظف</th><th>إجراءات</th></tr></thead><tbody id="pwRows"></tbody></table></div></div>`;
+      const draw=()=>{const term=(c.querySelector('#pwSearch').value||'').toLowerCase(),st=c.querySelector('#pwStatus').value,ds=c.querySelector('#pwDelivery').value;const rows=passportRows.filter(r=>(!term||Object.values(r).some(v=>String(v??'').toLowerCase().includes(term)))&&(!st||r.case_status===st)&&(!ds||r.delivery_status===ds));c.querySelector('#pwRows').innerHTML=rows.length?rows.map(r=>`<tr><td>${esc(r.client_number)}</td><td>${esc(r.receipt_number)}</td><td>${esc(r.full_name)}</td><td>${esc(r.phone)}</td><td>${esc(r.current_passport_number)}</td><td>${esc(r.service_type)}</td><td>${esc(r.case_status)}</td><td>${esc(r.delivery_status)}</td><td>${passportMoney(r.agreed_fee)}</td><td>${passportMoney(r.received_amount)}</td><td>${passportMoney(r.remaining_amount??(Number(r.agreed_fee||0)-Number(r.received_amount||0)))}</td><td>${esc(r.responsible_employee)}</td><td><div class="pw-actions"><button class="btn btn-outline btn-sm" data-pw-edit="${esc(r.client_number)}">تعديل</button><button class="btn btn-outline btn-sm" data-pw-msg="${esc(r.client_number)}">رسالة الجاهزية</button><button class="btn btn-danger btn-sm" data-pw-del="${esc(r.client_number)}">حذف</button></div></td></tr>`).join(''):'<tr><td colspan="13">لا توجد معاملات مطابقة.</td></tr>';};draw();c.querySelector('#pwSearch').addEventListener('input',draw);c.querySelector('#pwStatus').addEventListener('change',draw);c.querySelector('#pwDelivery').addEventListener('change',draw);c.querySelector('#pwNew').addEventListener('click',()=>{passportEditing=null;passportView='form';renderPassportWorkspace();});c.querySelector('#pwPrint').addEventListener('click',()=>window.print());c.querySelector('#pwExport').addEventListener('click',()=>exportPassportCsv(passportRows));
+      c.querySelector('#pwRows').addEventListener('click',async e=>{const edit=e.target.closest('[data-pw-edit]'),del=e.target.closest('[data-pw-del]'),msg=e.target.closest('[data-pw-msg]');if(edit){passportEditing=passportRows.find(r=>String(r.client_number)===edit.dataset.pwEdit);passportView='form';renderPassportWorkspace();}if(del){const id=del.dataset.pwDel;if(!confirm('هل تريد حذف معاملة الجواز رقم '+id+'؟'))return;const {error}=await sb.from(PASSPORT_TABLE).delete().eq('client_number',id);if(error){toast('تعذر الحذف: '+error.message);return;}toast('تم حذف المعاملة');await loadPassportData();}if(msg){const r=passportRows.find(x=>String(x.client_number)===msg.dataset.pwMsg);const text=r.notification_message||`عميلنا العزيز ${r.full_name}، نحيطكم علماً بأن معاملتكم أصبحت جاهزة للاستلام. رقم المعاملة: ${r.client_number}.`;try{await navigator.clipboard.writeText(text);toast('تم نسخ رسالة الجاهزية');}catch(_){window.prompt('انسخ رسالة الجاهزية:',text);}if(r.phone){let wa=r.phone.replace(/[^0-9]/g,'');if(wa.startsWith('0'))wa=wa.slice(1);if(wa.length===9&&wa.startsWith('7'))wa='967'+wa;window.open('https://wa.me/'+wa,'_blank');}}});}
+    function renderPassportTrips(c){const tripIds=new Set(passportRows.map(r=>r.trip_id).filter(x=>x!==null&&x!==undefined));c.innerHTML=`<div class="card"><div class="card-title">متابعة رحلات الجوازات</div><p class="pw-muted">تعرض هذه الصفحة الرحلات الموجودة في passport_trips، والمعاملات المرتبطة بكل رحلة. لم يتم افتراض أعمدة غير معروفة لجدول الرحلات.</p><div class="table-wrap"><table><thead><tr><th>رقم الرحلة</th><th>عدد المعاملات المرتبطة</th><th>أرقام العملاء</th><th>أسماء العملاء</th></tr></thead><tbody>${passportTrips.length?passportTrips.map(t=>{const linked=passportRows.filter(r=>String(r.trip_id)===String(t.id));return `<tr><td>${esc(t.id)}</td><td>${linked.length}</td><td>${linked.map(r=>esc(r.client_number)).join('، ')||'—'}</td><td>${linked.map(r=>esc(r.full_name)).join('، ')||'—'}</td></tr>`;}).join(''):'<tr><td colspan="4">لا توجد رحلات ظاهرة أو تعذر قراءة جدول الرحلات.</td></tr>'}</tbody></table></div></div>`;}
+    function renderPassportClients(c){const map=new Map();passportRows.forEach(r=>{const key=String(r.phone||r.full_name||r.client_number);if(!map.has(key))map.set(key,{name:r.full_name,phone:r.phone,alt:r.alt_phone,national_id:r.national_id,rows:[]});map.get(key).rows.push(r);});const clients=[...map.values()];c.innerHTML=`<div class="card"><div class="card-title">دليل عملاء الجوازات</div><p class="pw-muted">قائمة العملاء مستخرجة من معاملات الجوازات الحالية، دون إنشاء جدول عملاء جديد أو تغيير جدول customers.</p><div class="pw-tools"><input id="pwClientSearch" placeholder="ابحث باسم العميل أو الهاتف أو الهوية"></div><div class="table-wrap"><table><thead><tr><th>اسم العميل</th><th>الهاتف</th><th>الهاتف البديل</th><th>رقم الهوية</th><th>عدد المعاملات</th><th>أرقام المعاملات</th></tr></thead><tbody id="pwClientRows"></tbody></table></div></div>`;const draw=()=>{const q=c.querySelector('#pwClientSearch').value.toLowerCase(),filtered=clients.filter(x=>[x.name,x.phone,x.alt,x.national_id].some(v=>String(v||'').toLowerCase().includes(q)));c.querySelector('#pwClientRows').innerHTML=filtered.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.phone)}</td><td>${esc(x.alt)}</td><td>${esc(x.national_id)}</td><td>${x.rows.length}</td><td>${x.rows.map(r=>esc(r.client_number)).join('، ')}</td></tr>`).join('')||'<tr><td colspan="6">لا توجد نتائج.</td></tr>';};draw();c.querySelector('#pwClientSearch').addEventListener('input',draw);}
+    function exportPassportCsv(rows){const cols=PASSPORT_FIELDS.map(f=>f.name).concat(['remaining_amount']);const csv=[cols.join(','),...rows.map(r=>cols.map(k=>'"'+String(r[k]??'').replace(/"/g,'""')+'"').join(','))].join('\r\n');const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='passport-clients.csv';a.click();URL.revokeObjectURL(a.href);}
     function showFormMsg(msg,ok=false){const el=document.getElementById('formMessage');el.textContent=msg;el.className='alert '+(ok?'alert-success':'alert-error');}
     async function loadRecords(key){if(!sb||!TABLES[key])return;tableHead.innerHTML='';tableBody.innerHTML='<tr><td colspan="20">جار تحميل البيانات…</td></tr>';try{let q=sb.from(TABLES[key]).select('*').order('created_at',{ascending:false}).limit(500);const {data,error}=await q;if(error)throw error;records=data||[];renderRecords(key);}catch(e){tableBody.innerHTML=`<tr><td colspan="20">تعذر قراءة جدول ${esc(TABLES[key])}: ${esc(e.message)}. لم يتم تغيير البيانات. تحقق من اسم الجدول والصلاحيات.</td></tr>`;toast('تعذر تحميل '+MODULES[key].label);}}
     function renderRecords(key){const cfg=MODULES[key];const cols=[...cfg.fields.map(f=>f.name), 'id'];tableHead.innerHTML='<tr>'+cols.map(c=>`<th>${esc(cfg.fields.find(f=>f.name===c)?.label||c)}</th>`).join('')+'<th>إجراءات</th></tr>';const term=(document.getElementById('searchInput')?.value||'').trim().toLowerCase();const filtered=records.filter(r=>!term||Object.values(r).some(v=>String(v??'').toLowerCase().includes(term)));tableBody.innerHTML=filtered.length?filtered.map(r=>`<tr>${cols.map(c=>`<td>${esc(r[c])}</td>`).join('')}<td><button class="btn btn-outline btn-sm" data-edit="${esc(r.id)}">تعديل</button> <button class="btn btn-danger btn-sm" data-delete="${esc(r.id)}">حذف</button></td></tr>`).join(''):'<tr><td colspan="20">لا توجد سجلات مطابقة.</td></tr>';tableBody.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>{const r=records.find(x=>String(x.id)===b.dataset.edit);editRecordId=r?.id;renderForm(key,r||{});window.scrollTo({top:0,behavior:'smooth'});}));tableBody.querySelectorAll('[data-delete]').forEach(b=>b.addEventListener('click',()=>deleteRecord(key,b.dataset.delete)));}
@@ -1000,6 +1144,9 @@
     // دعم عرض رسالة تحديث كلمة المرور عند رجوع رابط Supabase.
     if(sb){sb.auth.onAuthStateChange((event)=>{if(event==='PASSWORD_RECOVERY'){toast('وصلت إلى جلسة استعادة كلمة المرور. استخدم صفحة Supabase Auth لتعيين كلمة جديدة إن لم تظهر واجهة تغييرها.')}});}
     
+    document.querySelectorAll('#quickActions [data-quick]').forEach(b=>b.addEventListener('click',()=>openModule(b.dataset.quick)));
+    const visualSearch=document.getElementById('globalSearchVisual');
+    if(visualSearch){visualSearch.addEventListener('input',()=>{const target=document.getElementById('searchInput');if(target){target.value=visualSearch.value;target.dispatchEvent(new Event('input',{bubbles:true}));}});}
     document.querySelectorAll('.primary-nav [data-module]').forEach(b=>b.addEventListener('click',()=>openModule(b.dataset.module)));
     const dateNode=document.getElementById('dashboardDate');
     if(dateNode) dateNode.textContent=new Intl.DateTimeFormat('ar-YE',{weekday:'long',year:'numeric',month:'long',day:'numeric'}).format(new Date());
